@@ -1,0 +1,139 @@
+.side-bar{
+    background-color:var(--sideBarBg);
+    font-family: var(--primaryFont);
+    width: 265px;
+    min-height: 100vh;
+    overflow:auto;
+}
+
+@media (max-width : 1000px){
+    .side-bar{
+        visibility: hidden;
+    }
+}
+
+.logo{
+    // background: var(--);
+    padding-top: 15px;
+    padding-left: 25px;
+    padding-bottom: 8px;
+}
+
+.side-navigation-box{
+    padding-top: 43px;
+    padding-bottom: 50px;
+}
+
+.side-navigation-active{
+    list-style: none;
+    padding-left: 19px !important;
+    margin-top: -14px;
+    display: block;
+    background-color: var(--fontColor);
+
+    .collapse.list-unstyled{
+        a{
+            font-family: var(--primaryFont);
+            font-size: 13px;
+            color: #fff;
+            text-decoration: none;
+            line-height: 45px;
+            padding-left: 15px;
+            font-weight: 400;
+        }
+        .sub-icon{
+            color:  var(--primaryColor);
+        }
+    }
+}
+
+.side-navigation-active a{
+    font-family: var(--primaryFont);
+    font-size: 14px;
+    color: #fff;
+    text-decoration: none;
+    line-height: 45px;
+    padding-left: 15px;
+    font-weight: 400;
+
+}
+
+.side-navigation-active a:hover{
+    text-decoration: none;
+    color: #fff;
+
+}
+
+
+.side-navigation{
+    list-style: none;
+    padding-left: 19px !important;
+    margin-top: -14px;
+    display: block;
+    
+}
+
+
+.side-navigation a{
+    font-family: var(--primaryFont);
+    font-size: 14px;
+    color: var(--fontColor);
+    text-decoration: none;
+    line-height: 45px;
+    padding-left: 15px;
+    font-weight: 400;
+}
+
+.side-navigation a:hover{
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: 500;
+    color: var(--secondaryColor);
+}
+
+
+
+.side-menu{
+    color: var(--secondaryColor);
+    font-size: 11.9px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    padding: 7px;
+    padding-left: 25px;
+
+}
+
+.active-icon{
+    color: var(--primaryColor);
+    margin-left: 6px;
+}
+
+.side-icon{
+    margin-left: 6px;
+    color: var(--secondaryColor);
+}
+
+.sub-icon{
+    margin-left: 0px;
+    color: var(--secondaryColor); 
+}
+
+
+.sub-menu{
+    margin-left: -10px;
+    margin-top: -10px;
+}
+
+.sub-menu a{
+    margin-left: -10px;
+}
+
+
+.collapse.list-unstyled {
+    a{
+        color: var(--secondaryColor);
+        font-size: 13px;
+    }
+}
+

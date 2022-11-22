@@ -3,11 +3,21 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import 'bootstrap/dist/css/bootstrap.min.css'
+import { BrowserRouter } from 'react-router-dom';
+import AuthenticationContext from './context/AuthenticationContext';
+import { NotificationContainer } from "react-notifications";
+import 'react-notifications/lib/notifications.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <AuthenticationContext>
+      <BrowserRouter>
+        <App />
+        <NotificationContainer />
+      </BrowserRouter>
+    </AuthenticationContext>
   </React.StrictMode>
 );
 

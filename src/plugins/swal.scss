@@ -1,0 +1,455 @@
+//Swal classes
+.swal2-container.swal2-center {
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    font-family: var(--primaryFont);
+  }
+  .swal2-container.swal2-backdrop-show, .swal2-container.swal2-noanimation {
+    background: rgba(0, 0, 0, 0.4);
+  }
+  .swal2-container {
+    overflow-y: hidden !important;
+  }
+  [class^=swal2] {
+    -webkit-tap-highlight-color: transparent;
+  }
+  .swal2-container {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    position: fixed;
+    z-index: 1060;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: row;
+    flex-direction: row;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    padding: 0.625em;
+    overflow-x: hidden;
+    -webkit-transition: background-color 0.1s;
+    transition: background-color 0.1s;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  .swal2-container:not(.swal2-top):not(.swal2-top-start):not(.swal2-top-end):not(.swal2-top-left):not(.swal2-top-right):not(.swal2-center-start):not(.swal2-center-end):not(.swal2-center-left):not(.swal2-center-right):not(.swal2-bottom):not(.swal2-bottom-start):not(.swal2-bottom-end):not(.swal2-bottom-left):not(.swal2-bottom-right):not(.swal2-grow-fullscreen) > .swal2-modal {
+    margin: auto;
+  }
+  .swal2-show {
+    -webkit-animation: swal2-show 0.3s;
+    animation: swal2-show 0.3s;
+  }
+
+  .swal2-popup {
+    padding: 2rem;
+    border-radius: 0.42rem;
+  }
+  .swal2-popup {
+    display: none;
+    position: relative;
+    box-sizing: border-box;
+    flex-direction: column;
+    justify-content: center;
+    width: 26em !important;
+    max-width: 100%;
+    padding: 0.0em !important;
+    border: none;
+    border-radius: 0.3125em;
+    background: #fff;
+    font-family: inherit;
+    font-size: 1rem;
+}
+  
+  .swal2-header {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    margin-top: 1em;
+  }
+  .swal2-progress-steps {
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    margin: 0 0 1.25em;
+    padding: 0;
+    background: inherit;
+    font-weight: 600;
+  }
+  
+  .swal2-icon {
+    position: relative;
+    -webkit-box-sizing: content-box;
+    box-sizing: content-box;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    width: 4em;
+    height: 4em;
+    margin: 1.25em auto 1.875em;
+    border: 3.5px solid transparent;
+    border-radius: 50%;
+    font-family: inherit;
+    line-height: 5em;
+    cursor: default;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+  }
+  .swal2-icon .swal2-icon-content {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    font-size: 2.75em;
+  }
+  
+  .swal2-icon.swal2-error {
+    border-color: #F64E60 !important;
+    color: #F64E60 !important;
+  }
+  .swal2-popup .swal2-icon {
+    margin: 2rem 0 0rem 0;
+  }
+  
+  .swal2-icon.swal2-question {
+    border-color: #3699FF !important;
+    color: #3699FF !important;
+  }
+  
+  .swal2-icon.swal2-warning {
+    border-color: #FFA800 !important;
+    color: #FFA800 !important;
+  }
+  
+  .swal2-icon.swal2-info {
+    border-color: #8950FC !important;
+    color: #8950FC !important;
+  }
+  
+  .swal2-icon.swal2-success {
+    border-color: #1BC5BD !important;
+    color: #1BC5BD !important;
+  }
+  .swal2-popup .swal2-title {
+    font-weight: 500;
+    font-size: 16.9px;
+    margin: 2rem 0 0 0;
+    color: #181C32 !important;
+  }
+  .swal2-title {
+    position: relative;
+    max-width: 100%;
+    margin: 0 0 0.4em;
+    padding: 0;
+    color: #595959 !important;
+    font-size: 1.875em;
+    font-weight: 600;
+    text-align: center;
+    text-transform: none;
+    word-wrap: break-word;
+  }
+  
+  .swal2-close {
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    right: 0;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    width: 1.2em;
+    height: 1.2em;
+    padding: 0;
+    overflow: hidden;
+    -webkit-transition: color 0.1s ease-out;
+    transition: color 0.1s ease-out;
+    border: none;
+    border-radius: 0;
+    background: transparent;
+    color: #cccccc !important;
+    font-family: serif;
+    font-size: 2.5em;
+    line-height: 1.2;
+    cursor: pointer;
+  }
+  
+  .swal2-popup .swal2-content {
+    font-weight: normal;
+    font-size: 14.3px;
+    margin-top: 1.5rem;
+    color: #3F4254 !important;
+}
+  .swal2-content {
+    z-index: 1;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    margin: 0;
+    padding: 0 !important;
+    color: #545454 !important;
+    font-size: 1.125em;
+    font-weight: normal;
+    line-height: normal;
+    text-align: center;
+    word-wrap: break-word;
+  }
+  .swal2-container .swal2-html-container {
+    max-height: 200px;
+    overflow: auto;
+  }
+  
+  .swal2-textarea {
+    height: 6.75em;
+    padding: 0.75em;
+  }
+  
+  .swal2-popup .swal2-actions {
+    margin: 1.5rem auto 2.5rem auto;
+  }
+  
+  .swal2-actions {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    z-index: 1;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    width: 100%;
+    margin: 1.25em auto 0;
+    padding: 0 !important
+  }
+  
+  .swal2-styled.swal2-confirm {
+    border: 0;
+    border-radius: 0.25em;
+    background: initial;
+    background-color: #3085d6 !important;
+    color: #fff;
+    font-size: 14px !important;
+  }
+  
+  .swal2-styled {
+    margin: 0.3125em;
+    padding: 0.625em 2em;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    font-weight: 500;
+  }
+  
+  .swal2-styled:focus {
+      outline: none;
+  }
+  .swal2-styled:not([disabled]) {
+    cursor: pointer;
+  }
+  .swal2-styled.swal2-cancel {
+    border: 0;
+    border-radius: 0.25em;
+    background: initial;
+    background-color: #aaa;
+    color: #fff;
+    font-size: 14px !important;
+  }
+  
+  .swal2-footer {
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+    margin: 1.25em 0 0;
+    padding: 1em 0 0;
+    border-top: 1px solid #eee;
+    color: #545454;
+    font-size: 1em;
+  }
+  
+  .swal2-timer-progress-bar-container {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 0.25em;
+    overflow: hidden;
+    border-bottom-right-radius: 0.3125em;
+    border-bottom-left-radius: 0.3125em;
+  }
+  
+  .swal2-timer-progress-bar {
+    width: 100%;
+    height: 0.25em;
+    background: rgba(0, 0, 0, 0.2);
+  }
+  
+  .swal2-icon.swal2-success [class^=swal2-success-circular-line][class$=left] {
+    top: -0.4375em;
+    left: -2.0635em;
+    -webkit-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+    -webkit-transform-origin: 3.75em 3.75em;
+    transform-origin: 3.75em 3.75em;
+    border-radius: 7.5em 0 0 7.5em;
+}
+.swal2-icon.swal2-success [class^=swal2-success-circular-line] {
+    position: absolute;
+    width: 3.75em;
+    height: 7.5em;
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+    border-radius: 50%;
+}
+
+.swal2-icon.swal2-success.swal2-icon-show .swal2-success-line-tip {
+    -webkit-animation: swal2-animate-success-line-tip 0.75s;
+    animation: swal2-animate-success-line-tip 0.75s;
+}
+.swal2-icon.swal2-success [class^=swal2-success-line][class$=tip] {
+    top: 2.3em;
+    left: 0.8125em;
+    width: 1.2625em;
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+}
+.swal2-icon.swal2-success [class^=swal2-success-line] {
+    background-color: #1BC5BD !important;
+}
+.swal2-icon.swal2-success [class^=swal2-success-line] {
+    display: block;
+    position: absolute;
+    z-index: 2;
+    height: 0.269em;
+    border-radius: 0.125em;
+    background-color: #a5dc86;
+}
+
+.swal2-icon.swal2-success.swal2-icon-show .swal2-success-line-long {
+    -webkit-animation: swal2-animate-success-line-long 0.75s;
+    animation: swal2-animate-success-line-long 0.75s;
+}
+.swal2-icon.swal2-success [class^=swal2-success-line][class$=long] {
+    top: 1.875em;
+    right: 0.2em;
+    width: 2.3375em;
+    -webkit-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+}
+
+.swal2-icon.swal2-success .swal2-success-ring {
+    border-color: rgba(27, 197, 189, 0.3) !important;
+}
+.swal2-icon.swal2-success .swal2-success-ring {
+    position: absolute;
+    z-index: 2;
+    top: -0.25em;
+    left: -0.25em;
+    -webkit-box-sizing: content-box;
+    box-sizing: content-box;
+    width: 100%;
+    height: 100%;
+    border: 0.25em solid rgba(165, 220, 134, 0.3);
+    border-radius: 50%;
+}
+
+.swal2-icon.swal2-success .swal2-success-fix {
+    position: absolute;
+    z-index: 1;
+    top: 0.5em;
+    left: 1.625em;
+    width: 0.4375em;
+    height: 5.625em;
+    -webkit-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+}
+.swal2-icon.swal2-success.swal2-icon-show .swal2-success-circular-line-right {
+    -webkit-animation: swal2-rotate-success-circular-line 4.25s ease-in;
+    animation: swal2-rotate-success-circular-line 4.25s ease-in;
+}
+.swal2-icon.swal2-success [class^=swal2-success-circular-line][class$=right] {
+    top: -0.6875em;
+    left: 1.875em;
+    -webkit-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+    -webkit-transform-origin: 0 3.75em;
+    transform-origin: 0 3.75em;
+    border-radius: 0 7.5em 7.5em 0;
+}
+
+.swal2-icon.swal2-error.swal2-icon-show .swal2-x-mark {
+    -webkit-animation: swal2-animate-error-x-mark 0.5s;
+    animation: swal2-animate-error-x-mark 0.5s;
+}
+.swal2-icon.swal2-error .swal2-x-mark {
+    position: relative;
+    -webkit-box-flex: 1;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+}
+
+.swal2-icon.swal2-error [class^=swal2-x-mark-line] {
+    background-color: rgba(246, 78, 96, 0.75);
+}
+
+.swal2-icon.swal2-error [class^=swal2-x-mark-line][class$=left] {
+    left: 0.6em;
+    transform: rotate(45deg);
+}
+
+.swal2-icon.swal2-error [class^=swal2-x-mark-line][class$=right] {
+    right: 0.7em;
+    transform: rotate(-45deg);
+}
+.swal2-icon.swal2-error [class^=swal2-x-mark-line] {
+    display: block;
+    position: absolute;
+    top: 1.95em;
+    width: 2.6375em;
+    height: 0.3125em;
+    border-radius: 0.125em;
+    background-color: #F64E60 !important
+}
+
+
+
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
