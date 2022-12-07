@@ -12,9 +12,30 @@
     --tealGreen: #1BC5BD;
 }
 
+.font-default{
+    font-family: var(--primaryFont);
+}
+
 .text-medium{
     font-size: 14px !important;
 }
+
+.fs-12{
+    font-size: 12px;
+}
+
+.fs-13{
+    font-size: 13px;
+}
+
+.fs-14{
+    font-size: 14px;
+}
+
+.fs-16{
+    font-size: 16px;
+}
+
 
 .m-06{
     margin: 6px !important;
@@ -42,6 +63,10 @@
 
 .mr-03{
     margin-right: 3px!important;
+}
+
+.mr-05{
+    margin-right: 5px;
 }
 
 .mr-4, .mx-4 {
@@ -117,6 +142,10 @@
     padding-top: 2.5rem !important;
 }
 
+.pr-4{
+    padding-right: 2rem !important;
+}
+
 .p-05{
     padding: 5px !important;
 }
@@ -190,6 +219,13 @@
     padding-bottom: 1rem !important;
     padding-top: 1rem !important;
 }
+
+.piechart-padding{
+    background-color: #FFFFFF;
+    padding: 23px 28px 35px;
+    border-radius: 20px;
+}
+
 .crust-dark-blue-light{
    color: #181c32e3;
 }
@@ -250,7 +286,7 @@
 }
   
 .Icon-white{
-    color:#8950fc;
+    color: var(--secondaryColor);
     margin-top: -10px;
     margin-left: -6px;
 
@@ -588,7 +624,7 @@ input, button, select, optgroup, textarea {
 }
 
 textarea.formcontrol {
-  height: 150px;
+  height: 80px;
   font-size: 13px;
 }
 
@@ -870,11 +906,11 @@ button[disabled]{
 }
   
 .button-export{
-    background-color: #E1F0FF;
+    background-color: var(--fontColor);
     border: none;
     border-color: transparent;
     border-radius: 5px;
-    color: var(--secondaryColor);
+    color: #FFF;
     padding: 8.45px 13px;
     text-align: center;
     text-decoration: none;
@@ -1759,4 +1795,43 @@ position: absolute;
 top: 17px;
 cursor: pointer;
 right: 10px;
+}
+
+.active>.page-link, .page-link.active {
+    z-index: 3;
+    // color: var(--bs-pagination-active-color);
+    background-color: var(--darkCrust) !important;
+    border-color: var(--darkCrust) !important;
+}
+
+.page-link{
+    font-size: 14px !important;
+}
+.fill-success{
+    fill: #18BD93
+}
+
+.fill-danger{
+    fill: #FF403B
+}
+
+.fill-pending{
+    fill: #FFAA09
+}
+
+.fill-blue{
+    fill: #12BCEA
+}
+
+.fill-deep-blue{
+    fill: #10A5CD
+}
+
+.fill-grey{
+    fill: #94A0B4
+}
+
+
+.border-right{
+  border-right: 1px solid #F4F7FE  
 }

@@ -15,7 +15,7 @@ export default class Layout extends Component {
                     <div>
                         <Header title={this.props.title} />
                     </div>
-                    <div>
+                    <div id="children">
                         {this.props.children}
                     </div>
                 </div>

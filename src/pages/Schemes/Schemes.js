@@ -8,20 +8,24 @@ import Modal from '../../components/modal/Modal';
 import axios from '../../plugins/axios'
 import AddScheme from '../../components/configcomponents/AddScheme';
 import swal from '../../plugins/swal';
-import { deleteScheme, viewSchemes } from '../../plugins/url';
-import { appNotification } from '../../plugins/appNotification';
+import { createScheme, deleteScheme, updateScheme, viewSchemes } from '../../plugins/url';
+import appNotification from '../../plugins/appNotification';
+import NoResultFound from '../../components/noresultfound/NoResultFound';
 
 const Schemes = () => {
   const [state, setState] = useState({
     add:'',
     pageNo:0,
     pageSize:20,
+    sortBy:"id",
     loading:false,
+    id:'',
     name:'',
-    regex:''
+    regex:'',
+    schemeList:[]
   })
 
-  const {add, modalValue, pageNo, pageSize, loading} = state;
+  const {add, modalValue, pageNo, pageSize, loading, sortBy, schemeList, name, regex, id} = state;
 
 
   const showModal = (value, data) =>{
@@ -30,8 +34,9 @@ const Schemes = () => {
             ...state,
             add: true,
             modalValue: value,
-            roleName: data?.roleName,
-            roleDescription: data?.roleDescription,
+            id: data? data.id:'',
+            name: data? data.name:'',
+            regex: data? data.regex:'',
         }))
     }else{
         setState(state=>({
@@ -52,7 +57,8 @@ const onChange =(e)=>{
 const getAllSchemes = () =>{
   let reqBody = {
     pageNo,
-    pageSize
+    pageSize,
+    sortBy
   }
 
   axios({
@@ -60,7 +66,13 @@ const getAllSchemes = () =>{
     url:`${viewSchemes}`,
     data:reqBody
   }).then(res=>{
-
+    if(res.data.respCode === '00'){
+      const {content} = res.data.respBody;
+      setState(state=>({
+        ...state,
+        schemeList:content
+      }))
+    }
   }).catch(err=>{
     console.log(err)
   })
@@ -68,11 +80,92 @@ const getAllSchemes = () =>{
 }
 
 const onCreateScheme = () =>{
+  setState(state=>({
+    ...state,
+    loading: true
+  }))
 
+  let reqBody = {
+    name, 
+    regex
+  }
+
+  axios({
+    method: 'post',
+    url:`${createScheme}`,
+    data:reqBody
+  }).then(res=>{
+    if(res.data.respCode === '00'){
+      setState(state=>({
+        ...state,
+        loading:false,
+        add:false
+      }))
+      swal.fire({
+        // type:'success',
+        title: 'Successful....',
+        icon: 'success',
+        text: `Scheme created successfully`
+    })
+      getAllSchemes()
+    }
+  }).catch(err=>{
+    setState(state=>({
+      ...state,
+      loading:false
+    }))
+    swal.fire({
+      // type:'success',
+      title: 'Error',
+      icon: 'error',
+      text: `Error creating Scheme`
+  })
+  })
 }
 
 const onEditScheme = () =>{
-  
+  setState(state=>({
+    ...state,
+    loading: true
+  }))
+
+  let reqBody = {
+    id,
+    name, 
+    regex
+  }
+
+  axios({
+    method: 'post',
+    url:`${updateScheme}`,
+    data:reqBody
+  }).then(res=>{
+    if(res.data.respCode === '00'){
+      setState(state=>({
+        ...state,
+        loading:false,
+        add:false
+      }))
+      swal.fire({
+        // type:'success',
+        title: 'Successful....',
+        icon: 'success',
+        text: `Scheme updated successfully`
+    })
+      getAllSchemes()
+    }
+  }).catch(err=>{
+    setState(state=>({
+      ...state,
+      loading:false
+    }))
+    swal.fire({
+      // type:'success',
+      title: 'Error',
+      icon: 'error',
+      text: `Error updating Scheme`
+  })
+  })
 }
 
 const onDelete = (id) =>{
@@ -88,21 +181,24 @@ const onDelete = (id) =>{
 
         axios({
             method: 'delete',
-            url: `${deleteScheme}/${id}/`,
+            url: `${deleteScheme}/${id}`,
         })
         .then(res=>{
-            // if(res.data.status.toLowerCase() === 'success'){
-              appNotification(res.message, 'Delete', 'success');
-            //   getAllSchemes()
-            // }else{
-            //   appNotification(data.message, 'Registration', 'success');
-            //   setTimeout(() => {
-            //     appNotification('Please check your email to verify your account', 'Verify Account', 'success');
-            //   }, [3000]);
-            // }
+            swal.fire({
+                // type:'success',
+                title: 'Successful....',
+                icon: 'success',
+                text: `Scheme deleted successfully`
+            })
+            getAllSchemes()
         })
         .catch(err => {
-          appNotification(err.message, 'Delete error', 'error');
+          swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: `${err.message}`,
+            // footer: 'Please contact support'
+        })
         });
     }
   })
@@ -124,6 +220,7 @@ useEffect(()=>{
       >
       <AddScheme 
           onChange={onChange} 
+          state={state}
       />
       </Modal>
       <Container>
@@ -149,37 +246,28 @@ useEffect(()=>{
                         <tr>
                             <th>#</th>
                             <th>name</th>
-                            <th>description</th>
-                            <th>date created</th>
+                            <th>regex</th>
                             <th>action</th>
                         </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>1</td>
-                        <td>Super admin</td>
-                        <td>Oversees</td>
-                        <td>22/09/2010</td>
-                        <td><FiEdit onClick={()=>showModal('edit')} size={20} className="crust-grey mr-15" />< RiDeleteBin5Line size={20}  className="crust-danger" onClick={()=>onDelete('1')}/></td>
-                      </tr>
-                        {/* {
-                            typeList.length === 0 ?
-                            <NoResultFound />
-                            :
-                            typeList.map((user, i)=>{
-                                const{type,description, created_date, id} = user;
+                        {
+                          schemeList?.length === 0 ?
+                          <NoResultFound />
+                          :
+                          schemeList.map((scheme, i)=>{
+                              const{name,regex, id} = scheme;
 
-                                return(
-                                    <tr key={i}>
-                                    <td>{i+1}</td>
-                                    <td>{type}</td>
-                                    <td>{description}</td>
-                                    <td>{created_date ? moment(new Date(created_date)).format('D/MM/YYYY') : 'N/A'}</td>
-                                    <td><FiEdit onClick={()=>showModal('edit', user)} size={20} className="camp-grey mr-15" />< RiDeleteBin5Line size={20}  className="camp-danger" onClick={()=>{onDeleteType(id)}} /></td>
-                                </tr>
-                                )
-                            })
-                        } */}
+                              return(
+                                  <tr key={i}>
+                                  <td>{i+1}</td>
+                                  <td>{name}</td>
+                                  <td>{regex}</td>
+                                  <td><FiEdit onClick={()=>showModal('edit', scheme)} size={20} className="crust-grey mr-15" />< RiDeleteBin5Line size={20}  className="crust-danger" onClick={()=>{onDelete(id)}} /></td>
+                              </tr>
+                              )
+                          })
+                        }
 
                     </tbody>
 

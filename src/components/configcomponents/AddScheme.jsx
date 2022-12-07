@@ -9,7 +9,7 @@ const AddScheme = (props) => {
                     className="formcontrol" 
                     type="text"   
                     name="name"
-                    value={props.name}
+                    value={props.state?.name}
                     onChange={props.onChange}
                 />
                  
@@ -20,7 +20,7 @@ const AddScheme = (props) => {
                     className="formcontrol" 
                     type="text"   
                     name="regex"
-                    value={props.regex}
+                    value={props.state?.regex}
                     onChange={props.onChange}
                 />
                  

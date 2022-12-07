@@ -9,7 +9,9 @@ import AddMerchant from './pages/Merchants/AddMerchant';
 import ViewMerchant from './pages/Merchants/ViewMerchant';
 import ViewMerchants from './pages/Merchants/ViewMerchants';
 import Roles from './pages/Roles/Roles';
+import AddRoute from './pages/Routing/AddRoute';
 import Routing from './pages/Routing/Routing';
+import ViewRoute from './pages/Routing/ViewRoute';
 import Schemes from './pages/Schemes/Schemes';
 import Signin from './pages/Signin/Signin';
 import Stations from './pages/Stations/Stations';
@@ -62,6 +64,8 @@ function App() {
 
         {/* Routes Management */}
         <Route path='/routes' exact element={ <Routing/>} />
+        <Route path='/route/:id' exact element={ <ViewRoute/>} />
+        <Route path='/add-route' exact element={ <AddRoute/>} />
 
         {/* Station Management */}
         <Route path='/stations' exact element={ <Stations/>} />

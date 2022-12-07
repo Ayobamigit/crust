@@ -1,49 +1,63 @@
 const baseUrl = () => {
-    return 'https://7fe3-41-58-252-39.eu.ngrok.io'  
+    return 'https://a5fd-41-58-242-199.eu.ngrok.io'  
 }
 
 
 //Sign in
 export const signIn = `${baseUrl()}/login`;
 
+//Dashboard
+export const dashboardData = `${baseUrl()}/api/v1/dashboard/data`;
+
 //Roles
 export const roles = `${baseUrl()}/api/v1/roles/view`;
 
 //Schemes
 export const viewSchemes = `${baseUrl()}/api/v1/scheme/view`;
+export const createScheme = `${baseUrl()}/api/v1/scheme/create`;
+export const updateScheme = `${baseUrl()}/api/v1/scheme/update`;
 export const deleteScheme = `${baseUrl()}/api/v1/scheme/delete`;
 
 // Stations
 export const viewStations = `${baseUrl()}/api/v1/stations/view`;
+export const createStation = `${baseUrl()}/api/v1/stations/create`;
+export const updateStation = `${baseUrl()}/api/v1/stations/update`;
+export const deleteStation = `${baseUrl()}/api/v1/stations/delete`;
 
 // Routes
 export const viewRoutes = `${baseUrl()}/api/v1/routes/view`;
+export const createRoute = `${baseUrl()}/api/v1/routes/create`;
+export const deleteRoute = `${baseUrl()}/api/v1/routes/delete`;
 
-// //Wallet 
-
-// export const createWallet = `${baseUrl().wallet}/wallet/create-wallet`;
-
-// export const walletDefault = `${baseUrl().agency}/agent/getMerchantBalance`;
-
-
-// //business types 
-// export const businessTypesList = `${baseUrl().auth}/business/type/find/all`;
+// Users 
+export const createUser = `${baseUrl()}/api/v1/users/create`;
+export const viewUsers = `${baseUrl()}/api/v1/users/view`;
+export const updateUser = `${baseUrl()}/api/v1/users/update`;
+export const deleteUser = `${baseUrl()}/api/v1/users/delete`;
 
 
-// //Terminal Services
-// export const requestTerminal = `${baseUrl().terminal}/terminals/request`;
-
-// export const allTerminals = `${baseUrl().terminal}/terminals/viewallterminalbyuser`;
-
-// export const allterminalTypes = `${baseUrl().terminal}/terminals/getterminaltypes`;
-
-// export const terminalStats = `${baseUrl().terminal}/terminals`;
+// Clients
+export const createClient = `${baseUrl()}/api/v1/clients/create`;
+export const viewClients = `${baseUrl()}/api/v1/clients/view`;
+export const updateClient = `${baseUrl()}/api/v1/clients/update`;
+export const deleteClient = `${baseUrl()}/api/v1/clients/delete`;
 
 
+//Terminal
+export const createTerminal = `${baseUrl()}/api/v1/terminals/create`;
+export const viewTerminals = `${baseUrl()}/api/v1/terminals/view`;
+export const updateTerminal = `${baseUrl()}/api/v1/terminals/update`;
+export const deleteTerminal = `${baseUrl()}/api/v1/terminals/delete`;
 
 
-// //Merchant Services
-// export const allMerchants = `${baseUrl().merchant}/agent/viewallmerchants`;
+
+
+//Merchant
+export const createMerchant = `${baseUrl()}/api/v1/merchants/create`;
+export const viewMerchants = `${baseUrl()}/api/v1/merchants/view`;
+export const updateMerchant = `${baseUrl()}/api/v1/merchants/update`;
+export const deleteMerchant = `${baseUrl()}/api/v1/merchants/delete`;
+
 
 // export const getunassignedterminals = `${baseUrl().merchant}/agent/getunassignedterminals`;
 

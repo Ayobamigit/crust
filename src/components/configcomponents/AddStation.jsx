@@ -9,7 +9,7 @@ const AddStation = (props) => {
                     className="formcontrol" 
                     type="text"   
                     name="name"
-                    value={props.name}
+                    value={props.state?.name}
                     onChange={props.onChange}
                 />
                  
@@ -20,7 +20,7 @@ const AddStation = (props) => {
                     className="formcontrol" 
                     type="text"   
                     name="zmk"
-                    value={props.zmk}
+                    value={props.state?.zmk}
                     onChange={props.onChange}
                 />
                  
@@ -31,7 +31,7 @@ const AddStation = (props) => {
                     className="formcontrol" 
                     type="text"   
                     name="zmkKcv"
-                    value={props.zmkKcv}
+                    value={props.state?.zmkKcv}
                     onChange={props.onChange}
                 />
                  
@@ -42,7 +42,7 @@ const AddStation = (props) => {
                     className="formcontrol" 
                     type="text"   
                     name="zpk"
-                    value={props.zpk}
+                    value={props.state?.zpk}
                     onChange={props.onChange}
                 />
                  
@@ -53,7 +53,7 @@ const AddStation = (props) => {
                     className="formcontrol" 
                     type="text"   
                     name="zpkKcv"
-                    value={props.zpkKcv}
+                    value={props.state?.zpkKcv}
                     onChange={props.onChange}
                 />
                  
@@ -64,13 +64,13 @@ const AddStation = (props) => {
                     className="formcontrol" 
                     type="text"   
                     name="status"
-                    value={props.status}
+                    value={props.state?.status}
                     onChange={props.onChange}
                     required
                 >
                     <option value="">Select status</option>
-                    <option value="active">Active</option>
-                    <option value="inactive">In-Active</option>
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
                     
                 </select>
                 

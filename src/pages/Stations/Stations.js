@@ -8,23 +8,27 @@ import Modal from '../../components/modal/Modal';
 import axios from '../../plugins/axios'
 import swal from '../../plugins/swal';
 import AddStation from '../../components/configcomponents/AddStation';
-import { viewStations } from '../../plugins/url';
+import { createStation, deleteStation, updateStation, viewStations } from '../../plugins/url';
+import moment from 'moment';
+import NoResultFound from '../../components/noresultfound/NoResultFound';
 
 const Stations = () => {
   const [state, setState] = useState({
     add:'',
     pageNo:0,
     pageSize:20,
+    sortBy:"id",
     loading:false,
     name:'',
     status:'',
     zmk:'',
     zpk:'',
     zmkKcv:'',
-    zpkKcv:''
+    zpkKcv:'',
+    stationlist:[]
   })
 
-  const {add, modalValue, pageNo, pageSize, loading} = state;
+  const {add, modalValue, pageNo, pageSize, loading, sortBy, name, status, zmk, zmkKcv, zpk, zpkKcv, stationlist} = state;
 
 
   const showModal = (value, data) =>{
@@ -33,8 +37,12 @@ const Stations = () => {
             ...state,
             add: true,
             modalValue: value,
-            roleName: data?.roleName,
-            roleDescription: data?.roleDescription,
+            name: data ? data.name : '',
+            status: data ? data.status : '',
+            zmk: data ? data.zmk : '',
+            zpk: data ? data.zpk : '',
+            zmkKcv: data ? data.zmkKcv : '',
+            zpkKcv: data ? data.zpkKcv : '',
         }))
     }else{
         setState(state=>({
@@ -55,7 +63,8 @@ const onChange =(e)=>{
 const getAllStations = () =>{
   let reqBody = {
     pageNo,
-    pageSize
+    pageSize,
+    sortBy
   }
 
   axios({
@@ -63,7 +72,13 @@ const getAllStations = () =>{
     url:`${viewStations}`,
     data:reqBody
   }).then(res=>{
-
+    if(res.data.respCode === '00'){
+      const {content} = res.data.respBody;
+      setState(state=>({
+        ...state,
+        stationlist:content
+      }))
+    }
   }).catch(err=>{
     console.log(err)
   })
@@ -71,11 +86,99 @@ const getAllStations = () =>{
 }
 
 const onCreateStation = () =>{
+  setState(state=>({
+    ...state,
+    loading: true
+  }))
 
+  let reqBody = {
+    name, 
+    status,
+    zmk,
+    zpk,
+    zmkKcv,
+    zpkKcv
+  }
+
+  axios({
+    method: 'post',
+    url:`${createStation}`,
+    data:reqBody
+  }).then(res=>{
+    if(res.data.respCode === '00'){
+      setState(state=>({
+        ...state,
+        loading:false,
+        add:false
+      }))
+      swal.fire({
+        // type:'success',
+        title: 'Successful....',
+        icon: 'success',
+        text: `Station created successfully`
+    })
+      getAllStations()
+    }
+  }).catch(err=>{
+    setState(state=>({
+      ...state,
+      loading:false
+    }))
+    swal.fire({
+      // type:'success',
+      title: 'Error',
+      icon: 'error',
+      text: `Error creating Station`
+    })
+  })
 }
 
 const onEditStation= () =>{
-  
+  setState(state=>({
+    ...state,
+    loading: true
+  }))
+
+  let reqBody = {
+    name, 
+    status,
+    zmk,
+    zpk,
+    zmkKcv,
+    zpkKcv
+  }
+
+  axios({
+    method: 'post',
+    url:`${updateStation}`,
+    data:reqBody
+  }).then(res=>{
+    if(res.data.respCode === '00'){
+      setState(state=>({
+        ...state,
+        loading:false,
+        add:false
+      }))
+      swal.fire({
+        // type:'success',
+        title: 'Successful....',
+        icon: 'success',
+        text: `Station updated successfully`
+    })
+      getAllStations()
+    }
+  }).catch(err=>{
+    setState(state=>({
+      ...state,
+      loading:false
+    }))
+    swal.fire({
+      // type:'success',
+      title: 'Error',
+      icon: 'error',
+      text: `Error updating Station`
+  })
+  })
 }
 
 const onDelete = (id) =>{
@@ -87,39 +190,31 @@ const onDelete = (id) =>{
       confirmButtonText: 'Yes' 
   })
   .then(remove=>{
-      // if(remove.isConfirmed){
+      if(remove.isConfirmed){
 
-      //     axios({
-      //         method: 'delete',
-      //         url: `${deleteUserType}/${id}/${deleted_by}`,
-      //     })
-      //     .then(res=>{
-      //         if(res.data.status.toLowerCase() === 'success'){
-      //             Swal.fire({
-      //                 // type:'success',
-      //                 title: 'Successful....',
-      //                 icon: 'success',
-      //                 text: `User Type deleted successfully`
-      //             })
-      //             getAllTypes()
-      //         }else{
-      //             Swal.fire({
-      //                 // type:'success',
-      //                 title: 'Delete Failed',
-      //                 icon: 'info',
-      //                 text: `${res.data.message}`
-      //             })
-      //         }
-      //     })
-      //     .catch(err => {
-      //         Swal.fire({
-      //             icon: 'error',
-      //             title: 'Oops...',
-      //             text: `${err.message}`,
-      //             // footer: 'Please contact support'
-      //         })
-      //     });
-      // }
+          axios({
+              method: 'delete',
+              url: `${deleteStation}/${id}`,
+          })
+          .then(res=>{
+              // if(res.data.respCode === '00'){
+              swal.fire({
+                  // type:'success',
+                  title: 'Successful....',
+                  icon: 'success',
+                  text: `Station deleted successfully`
+              })
+              getAllStations()
+          })
+          .catch(err => {
+              swal.fire({
+                  icon: 'error',
+                  title: 'Oops...',
+                  text: `Error deleting station`,
+                  // footer: 'Please contact support'
+              })
+          });
+      }
   })
 }
 
@@ -138,6 +233,7 @@ useEffect(()=>{
       >
       <AddStation 
           onChange={onChange} 
+          state={state}
       />
       </Modal>
       <Container>
@@ -163,37 +259,46 @@ useEffect(()=>{
                         <tr>
                             <th>#</th>
                             <th>name</th>
-                            <th>description</th>
+                            <th>zmk</th>
+                            <th>zpk</th>
+                            <th>zmkKcv</th>
+                            <th>zpkkcv</th>
                             <th>date created</th>
+                            <th>status</th>
                             <th>action</th>
                         </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>1</td>
-                        <td>Super admin</td>
-                        <td>Oversees</td>
-                        <td>22/09/2010</td>
-                        <td><FiEdit onClick={()=>showModal('edit')} size={20} className="crust-grey mr-15" />< RiDeleteBin5Line size={20}  className="crust-danger" onClick={()=>onDelete('1')}/></td>
-                      </tr>
-                        {/* {
-                            typeList.length === 0 ?
+                        {
+                            stationlist?.length === 0 ?
                             <NoResultFound />
                             :
-                            typeList.map((user, i)=>{
-                                const{type,description, created_date, id} = user;
+                            stationlist.map((station, i)=>{
+                                const{name,status, zmk, zmkKcv, zpk, zpkKcv, id, dateCreated} = station;
+                                const statusClass = () =>{
+                                    if(status.toLowerCase()==='active'){
+                                        return 'tabactive'
+                                    } 
+                                    else{
+                                        return 'tabinactive'
+                                    }
+                                }
 
                                 return(
                                     <tr key={i}>
                                     <td>{i+1}</td>
-                                    <td>{type}</td>
-                                    <td>{description}</td>
-                                    <td>{created_date ? moment(new Date(created_date)).format('D/MM/YYYY') : 'N/A'}</td>
-                                    <td><FiEdit onClick={()=>showModal('edit', user)} size={20} className="camp-grey mr-15" />< RiDeleteBin5Line size={20}  className="camp-danger" onClick={()=>{onDeleteType(id)}} /></td>
+                                    <td>{name}</td>
+                                    <td>{zmk}</td>
+                                    <td>{zpk}</td>
+                                    <td>{zmkKcv}</td>
+                                    <td>{zpkKcv}</td>
+                                    <td>{dateCreated ? moment(new Date(dateCreated)).format('D/MM/YYYY') : 'N/A'}</td>
+                                    <td><span className={`${statusClass()}`}>{status}</span></td>
+                                    <td><FiEdit onClick={()=>showModal('edit', station)} size={20} className="crust-grey mr-15" />< RiDeleteBin5Line size={20}  className="crust-danger" onClick={()=>onDelete(id)}/></td>
                                 </tr>
                                 )
                             })
-                        } */}
+                        }
 
                     </tbody>
 

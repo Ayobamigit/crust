@@ -6,22 +6,26 @@ import SubmitLoader from '../../components/submitloader/SubmitLoader'
 import withTimeout from '../../hoc/withTimeout'
 import axios from '../../plugins/axios'
 import swal from '../../plugins/swal'
-import { createUser, viewClients } from '../../plugins/url'
+import { createRoute, createUser, viewClients, viewSchemes, viewStations } from '../../plugins/url'
 
-const AddUser = () => {
+const AddRoute = () => {
   const navigate = useNavigate()
   const [state, setState] = useState({
-    firstname:'',
-    lastname:'',
-    userType:'ADMIN',
-    username:'',
-    email:'',
-    clientId:'',
+    id:'',
+    type:'',
+    clientsId:'ADMIN',
+    minimumAmount:'',
+    maximumAmount:'',
+    scheme:'',
+    stationId:'',
+    precedence:'',
+    schemes:[],
+    stations:[],
+    clients:[],
     loading: false,
-    clientList:[]
   })
 
-  const {loading, firstname, lastname, userType, email, clientId, clientList, username} = state;
+  const {loading, id, type, clientsId, minimumAmount, maximumAmount, scheme, stationId, precedence, clientList, clients, stations, schemes} = state;
 
   const onChange =(e)=>{
     setState(state=>({
@@ -45,7 +49,55 @@ const AddUser = () => {
       if(res.data.respCode === '00'){
         setState(state=>({
           ...state,
-          clientList: res.data.respBody.content,
+          clients: res.data.respBody.content,
+        }))
+      }
+    }).catch(err=>{
+      console.log(err)
+    })
+  
+  }
+
+  const getAllStations = () =>{
+    let reqBody = {
+      pageNo: 0,
+      pageSize:100,
+      sortBy: 'id'
+    }
+  
+    axios({
+      method: 'post',
+      url:`${viewStations}`,
+      data:reqBody
+    }).then(res=>{
+      if(res.data.respCode === '00'){
+        setState(state=>({
+          ...state,
+          stations: res.data.respBody.content,
+        }))
+      }
+    }).catch(err=>{
+      console.log(err)
+    })
+  
+  }
+
+  const getAllSchemes = () =>{
+    let reqBody = {
+      pageNo: 0,
+      pageSize:100,
+      sortBy: 'id'
+    }
+  
+    axios({
+      method: 'post',
+      url:`${viewSchemes}`,
+      data:reqBody
+    }).then(res=>{
+      if(res.data.respCode === '00'){
+        setState(state=>({
+          ...state,
+          schemes: res.data.respBody.content,
         }))
       }
     }).catch(err=>{
@@ -57,9 +109,11 @@ const AddUser = () => {
 
   useEffect(()=>{
     getAllClients();
+    getAllSchemes();
+    getAllStations();
   },[])
 
-const onCreateUser = (e) =>{
+const onCreateRoute = (e) =>{
   e.preventDefault();
   setState(state=>({
     ...state,
@@ -67,17 +121,19 @@ const onCreateUser = (e) =>{
   }))
 
   let reqbody = {
-    firstname,
-    lastname,
-    userType,
-    username,
-    email,
-    clientId
+    id,
+    type,
+    clientsId,
+    minimumAmount,
+    maximumAmount,
+    scheme,
+    stationId,
+    precedence
   }
 
   axios({
     method: 'post',
-    url:`${createUser}`,
+    url:`${createRoute}`,
     data: reqbody
   }).then(res=>{
     setState(state=>({
@@ -89,9 +145,9 @@ const onCreateUser = (e) =>{
         // type:'success',
         title: 'Successful....',
         icon: 'success',
-        text: `User created successfully`
+        text: `Route created successfully`
     })
-      navigate('/users')
+      navigate('/routes')
     }
   }).catch(err=>{
     setState(state=>({
@@ -106,8 +162,8 @@ const onCreateUser = (e) =>{
   })
 }
   return (
-    <Layout title="Add Users">
-      <Container>
+    <Layout title="Add Route">
+        <Container>
         <div className="TableList" style={{width:"70%"}}>
         
           <h6 className="crust-dark-blue-light pt-25 ml-25 mb-20">
@@ -116,19 +172,19 @@ const onCreateUser = (e) =>{
 
           <div className="line"></div>
 
-          <form className="form-body" onSubmit={onCreateUser}>
+          <form className="form-body" onSubmit={onCreateRoute}>
 
             <div className="info-body">
 
               <Row className="formgroup">
 
                 <Col xl={6} lg={6}>
-                  <label>First Name</label>
+                  <label>Type</label>
                   <div className="input-group">
                     <input  
                       className="formcontrol" 
                       type="text" 
-                      name="firstname"
+                      name="type"
                       onChange = {onChange}
                       required
                     />
@@ -136,40 +192,40 @@ const onCreateUser = (e) =>{
                 </Col>  
 
                 <Col lg={6}>
-                      <label>Last Name:</label>
+                      <label>Precedence</label>
                       <div className="input-group">
                         <input 
                             type="text" 
                             className="formcontrol" 
                             required 
                             onChange={onChange}
-                            name="lastname"
+                            name="precedence"
                           />
                       </div>
                 </Col>
               </Row>
               <Row className="formgroup">
                 <Col lg={6}>
-                      <label>User Name:</label>
+                      <label>Minimum Amount</label>
                       <div className="input-group">
                         <input 
                             type="text" 
                             className="formcontrol" 
                             onChange={onChange}
-                            name="username"
+                            name="minimumAmount"
                             required 
                           />
                       </div>
                 </Col>
 
                 <Col lg={6}>
-                      <label>Email:</label>
+                      <label>Maximun Amount</label>
                       <div className="input-group">
                         <input 
                         type="text" 
                         className="formcontrol"
                         onChange={onChange}
-                        name="email"
+                        name="maximumAmount"
                         required
                         />
                       </div>
@@ -185,16 +241,72 @@ const onCreateUser = (e) =>{
                           type="text" 
                           className="formcontrol"
                           onChange={onChange}
-                          name = "clientId"
+                          name = "clientsId"
                           required 
                         >
                           <option>Select Client</option>
                           {
-                            clientList ?
-                            clientList.map((client, i)=>{
+                            clients ?
+                            clients.map((client, i)=>{
                               return (
                               <option value={client.id} key={i}>
                                 {client.clientName}
+                              </option>
+                              )
+                            })
+                            :
+                            null
+                          }
+                        </select>
+                      </div>
+                </Col>
+
+                <Col lg={6}>
+                      <label>Station</label>
+                      <div className="input-group">
+                        <select 
+                          type="text" 
+                          className="formcontrol"
+                          onChange={onChange}
+                          name = "stationId"
+                          required 
+                        >
+                          <option>Select Station</option>
+                          {
+                            stations ?
+                            stations.map((station, i)=>{
+                              return (
+                              <option value={station.id} key={i}>
+                                {station.name}
+                              </option>
+                              )
+                            })
+                            :
+                            null
+                          }
+                        </select>
+                      </div>
+                </Col>
+              </Row>
+
+              <Row className="formgroup">
+                <Col lg={6}>
+                      <label>Scheme</label>
+                      <div className="input-group">
+                        <select 
+                          type="text" 
+                          className="formcontrol"
+                          onChange={onChange}
+                          name = "scheme"
+                          required 
+                        >
+                          <option>Select scheme</option>
+                          {
+                            schemes ?
+                            schemes.map((scheme, i)=>{
+                              return (
+                              <option value={scheme.id} key={i}>
+                                {scheme.name}
                               </option>
                               )
                             })
@@ -218,7 +330,7 @@ const onCreateUser = (e) =>{
                     loading ?
                     <SubmitLoader />
                     :
-                    'Create User'
+                    'Create Route'
                   }
               </button>
             </div>
@@ -229,4 +341,4 @@ const onCreateUser = (e) =>{
   )
 }
 
-export default withTimeout(AddUser)
+export default withTimeout(AddRoute)

@@ -8,16 +8,19 @@ import Modal from '../../components/modal/Modal';
 import AddRole from '../../components/configcomponents/AddRole';
 import axios from '../../plugins/axios';
 import { roles } from '../../plugins/url';
+import NoResultFound from '../../components/noresultfound/NoResultFound';
 
 const Roles = () => {
   const [state, setState] = useState({
     add:'',
     pageNo:0,
     pageSize:20,
+    sortBy: "id",
+    roleList:[],
     loading:false
   })
 
-  const {add, modalValue, pageNo, pageSize, loading} = state;
+  const {add, modalValue, pageNo, pageSize, loading, sortBy, roleList} = state;
 
 
   const showModal = (value, data) =>{
@@ -48,7 +51,8 @@ const onChange =(e)=>{
 const getAllRoles = () =>{
   let reqBody = {
     pageNo,
-    pageSize
+    pageSize,
+    sortBy
   }
 
   axios({
@@ -56,7 +60,10 @@ const getAllRoles = () =>{
     url: `${roles}`,
     data:reqBody
   }).then(res=>{
-
+    setState(state=>({
+      ...state,
+      roleList: res.data.content
+    }))
   }).catch(err=>{
     console.log(err)
   })
@@ -95,15 +102,6 @@ useEffect(()=>{
                 <div>
                     <h6 className="camp-dark-blue-light">User Roles</h6>
                 </div>
-                                    
-                <div>
-
-                    <span className="m-06">
-                        <button className="button-primary" onClick={()=>showModal('add')}>
-                            <RiAddBoxFill size={18} className="mr-07" />Add New Role
-                        </button>
-                    </span>
-                </div>
             </div>
 
             <div className="mt-30">
@@ -113,36 +111,25 @@ useEffect(()=>{
                             <th>#</th>
                             <th>name</th>
                             <th>description</th>
-                            <th>date created</th>
-                            <th>action</th>
                         </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>1</td>
-                        <td>Super admin</td>
-                        <td>Oversees</td>
-                        <td>22/09/2010</td>
-                        <td><FiEdit onClick={()=>showModal('edit')} size={20} className="crust-grey mr-15" />< RiDeleteBin5Line size={20}  className="crust-danger"/></td>
-                      </tr>
-                        {/* {
-                            typeList.length === 0 ?
+                        {
+                            roleList?.length === 0 ?
                             <NoResultFound />
                             :
-                            typeList.map((user, i)=>{
-                                const{type,description, created_date, id} = user;
+                            roleList.map((role, i)=>{
+                                const{roleName,roleDescription} = role;
 
                                 return(
                                     <tr key={i}>
-                                    <td>{i+1}</td>
-                                    <td>{type}</td>
-                                    <td>{description}</td>
-                                    <td>{created_date ? moment(new Date(created_date)).format('D/MM/YYYY') : 'N/A'}</td>
-                                    <td><FiEdit onClick={()=>showModal('edit', user)} size={20} className="camp-grey mr-15" />< RiDeleteBin5Line size={20}  className="camp-danger" onClick={()=>{onDeleteType(id)}} /></td>
-                                </tr>
+                                      <td>{i+1}</td>
+                                      <td>{roleName}</td>
+                                      <td>{roleDescription}</td>
+                                    </tr>
                                 )
                             })
-                        } */}
+                        }
 
                     </tbody>
 

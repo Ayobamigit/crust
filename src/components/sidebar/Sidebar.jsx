@@ -31,7 +31,7 @@ const Sidebar = (props) => {
                 
                 <ul className={props.title === 'Dashboard' ? 'side-navigation-active': 'side-navigation'}>
                     <li>
-                        <MdLayers className={props.title === 'Dashboard' ? 'active-icon': 'side-icon'} size={20} /><NavLink to="/">Dashboard</NavLink>
+                        <MdLayers className={props.title === 'Dashboard' ? 'active-icon': 'side-icon'} size={20} /><NavLink to="/dashboard">Dashboard</NavLink>
                     </li>
                 </ul>
 
@@ -103,7 +103,7 @@ const Sidebar = (props) => {
 
                             <li className='submenu'>
                                 <BsDash className='sub-icon' size={10}/>
-                                <NavLink to="clients" activeClassName="selected">
+                                <NavLink to="/clients" activeClassName="selected">
                                     View Clients
                                 </NavLink>
                             </li>
@@ -121,7 +121,7 @@ const Sidebar = (props) => {
                     </li>
                 </ul>
 
-                <ul className={props.title === 'Routes' ? 'side-navigation-active' : 'side-navigation'}>
+                <ul className={props.title === 'Routes' || props.title === 'Add Route'  ? 'side-navigation-active' : 'side-navigation'}>
                     <li>
                         <AiOutlineCreditCard className={props.title === 'Routes' ? 'active-icon' : 'side-icon'} size={20} /><NavLink to="/routes">Routes</NavLink>
                     </li>
