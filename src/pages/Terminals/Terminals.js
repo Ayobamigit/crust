@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import withTimeout from '../../hoc/withTimeout'
 import Layout from '../../components/layout/Layout'
-import { Container, Table } from 'react-bootstrap'
+import { Container, Table, Row, Col } from 'react-bootstrap'
 import {RiAddBoxFill, RiDeleteBin5Line} from 'react-icons/ri';
 import {FiEdit} from 'react-icons/fi'
 import Modal from '../../components/modal/Modal';
 import axios from '../../plugins/axios'
 import swal from '../../plugins/swal';
-import {createTerminal, deleteTerminal, updateTerminal, viewMerchants, viewTerminals } from '../../plugins/url';
+import {createTerminal, deleteTerminal, updateTerminal, viewMerchants, viewTerminals, viewTerminalsParam } from '../../plugins/url';
 import appNotification from '../../plugins/appNotification';
 import NoResultFound from '../../components/noresultfound/NoResultFound';
 import AddTerminal from '../../components/configcomponents/AddTerminal';
+import SubmitLoader from '../../components/submitloader/SubmitLoader';
 
 const Terminals = () => {
   const [state, setState] = useState({
@@ -27,7 +28,7 @@ const Terminals = () => {
     merchantList:[]
   })
 
-  const {add, modalValue, pageNo, pageSize, loading, sortBy, terminalList, merchantId, terminalID, terminalSerialNumber, terminalType, merchantList} = state;
+  const {add, modalValue, pageNo, pageSize, loading, sortBy, terminalList, merchantId, terminalID, merchantID, terminalSerialNumber, terminalType, merchantList} = state;
 
 
   const showModal = (value, data) =>{
@@ -79,6 +80,48 @@ const getAllTerminals = () =>{
       }))
     }
   }).catch(err=>{
+    console.log(err)
+  })
+
+}
+
+const searchTerminal = () =>{
+       
+  setState(state=>({
+    ...state,
+    loading:true,
+  }))
+
+  let reqBody = {
+    pageNo,
+    pageSize,
+    sortBy,
+    param:{
+      merchantID: merchantID? merchantID : undefined,
+      terminalID: terminalID ? terminalID : undefined,
+      terminalSerialNumber: terminalSerialNumber ? terminalSerialNumber : undefined
+    }
+  }
+
+  axios({
+    method: 'post',
+    url:`${viewTerminalsParam}`,
+    data:reqBody
+  }).then(res=>{
+    if(res.data.respCode === '00'){
+      const {content, totalPages} = res.data.respBody;
+      setState(state=>({
+        ...state,
+        loading:false,
+        terminalList:content,
+        totalPages
+      }))
+    }
+  }).catch(err=>{
+    setState(state=>({
+      ...state,
+      loading:false
+    }))
     console.log(err)
   })
 
@@ -274,6 +317,41 @@ useEffect(()=>{
                         </button>
                     </span>
                 </div>
+            </div>
+
+            <div className="mt-30">
+              <Row>
+                  <Col lg={3}>
+                      <div className="filterItem">
+                        <label className="label">Search:</label>
+                        <input className="formcontrol" type="text" placeholder="Search by terminal ID" name="terminalID" onChange = {onChange}/>
+                      </div>
+                  </Col>
+
+                  <Col lg={3}>
+                      <div className="filterItem">
+                        <input className="formcontrol" type="text" placeholder="Search by merchant ID" name="merchantID" onChange = {onChange}/>
+                      </div>
+                  </Col>
+
+                  <Col lg={3}>
+                      <div className="filterItem">
+                        <input className="formcontrol" type="text" placeholder="Search by serial number" name="terminalSerialNumber" onChange = {onChange}/>
+                      </div>
+                  </Col>
+                  <Col lg={1}>
+                      <div>
+                          <button className="button-export" onClick={searchTerminal}>
+                            {
+                              loading ?
+                              <SubmitLoader />
+                              :
+                              'Search'
+                            }
+                          </button>   
+                      </div>
+                  </Col>
+              </Row> 
             </div>
 
             <div className="mt-30">

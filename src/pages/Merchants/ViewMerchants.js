@@ -10,7 +10,7 @@ import {RiDownloadCloudFill, RiAddBoxFill} from 'react-icons/ri';
 import {BiChevronDown} from 'react-icons/bi';
 import {Table, Col, Row, Container} from 'react-bootstrap'
 import NoResultFound from '../../components/noresultfound/NoResultFound';
-import {viewMerchants } from '../../plugins/url';
+import {viewMerchants, viewMerchantsParam } from '../../plugins/url';
 import axios from '../../plugins/axios'
 import { useNavigate } from 'react-router'
 
@@ -23,10 +23,12 @@ const ViewMerchants = () => {
     pageSize: 20,
     totalPages: 0,
     sortBy:"id",
-    merchantList:[]
+    merchantList:[],
+    merchantID:'',
+    countryCode:''
   })
 
-  const {loading, pageNo, pageSize, sortBy, merchantList, totalPages, processing} = state;
+  const {loading, pageNo, pageSize, sortBy, merchantList, totalPages, processing, merchantID, countryCode} = state;
 
   const onChange =(e)=>{
     setState(state=>({
@@ -55,6 +57,46 @@ const ViewMerchants = () => {
         }))
       }
     }).catch(err=>{
+      console.log(err)
+    })
+  
+  }
+  const searchMerchant = () =>{
+       
+    setState(state=>({
+      ...state,
+      loading:true,
+    }))
+
+    let reqBody = {
+      pageNo,
+      pageSize,
+      sortBy,
+      param:{
+        merchantID: merchantID? merchantID : undefined,
+        countryCode: countryCode ? countryCode : undefined
+      }
+    }
+  
+    axios({
+      method: 'post',
+      url:`${viewMerchantsParam}`,
+      data:reqBody
+    }).then(res=>{
+      if(res.data.respCode === '00'){
+        const {content, totalPages} = res.data.respBody;
+        setState(state=>({
+          ...state,
+          loading:false,
+          merchantList:content,
+          totalPages
+        }))
+      }
+    }).catch(err=>{
+      setState(state=>({
+        ...state,
+        loading:false
+      }))
       console.log(err)
     })
   
@@ -124,7 +166,7 @@ const ViewMerchants = () => {
                   </span>
                 </span>
                 <span className="m-06">
-                  <NavLink to="/add-client">
+                  <NavLink to="/add-merchant">
                     <button className="button-primary">
                       <RiAddBoxFill size={18} className="mr-07" />Add New
                     </button>
@@ -137,23 +179,20 @@ const ViewMerchants = () => {
               <Row>
                   <Col lg={4}>
                       <div className="filterItem">
-                        <label className="label">Status:</label>
-                        <select className="formcontrol" name="status" onChange={onChange}>
-                            <option value="">All</option>
-                            <option value="Active">Active</option>
-                            <option value="Inactive">Inactive</option>
-                        </select>
+                        <label className="label">Search:</label>
+                        <input className="formcontrol" type="text" placeholder="Search by merchant ID" name="merchantID" onChange = {onChange}/>
                       </div>
                   </Col>
+
                   <Col lg={4}>
                       <div className="filterItem">
                         <label className="label">Search:</label>
-                        <input className="formcontrol" type="text" placeholder="Search by name" name="clientName" onChange = {onChange}/>
+                        <input className="formcontrol" type="text" placeholder="Search by country code" name="countryCode" onChange = {onChange}/>
                       </div>
                   </Col>
                   <Col lg={1}>
                       <div>
-                          <button className="button-export" onClick={getAllMerchants}>
+                          <button className="button-export" onClick={searchMerchant}>
                             {
                               loading ?
                               <SubmitLoader />
@@ -173,6 +212,7 @@ const ViewMerchants = () => {
                         <th>#</th>
                         <th>merchant id</th>
                         <th>name</th>
+                        <th>client</th>
                         <th>state</th>
                         <th>date created</th>
                         <th>status</th>
@@ -185,7 +225,7 @@ const ViewMerchants = () => {
                             <NoResultFound />
                             :
                             merchantList.map((merchant, i)=>{
-                                const{firstName, lastName, dateCreated, state, isActive, merchantID, id} = merchant;
+                                const{firstName, lastName, dateCreated, state, isActive, merchantID, clients, id} = merchant;
                                 let status
                                 const statusClass = () =>{
                                     if(isActive){
@@ -203,6 +243,7 @@ const ViewMerchants = () => {
                                     <td>{i+1}</td>
                                     <td>{merchantID ? merchantID : 'N/A'}</td>
                                     <td>{firstName + ' ' + lastName}</td>
+                                    <td>{clients?.clientName}</td>
                                     <td>{state ? state : 'N/A'}</td>
                                     <td>{dateCreated ? moment(new Date(dateCreated)).format('D/MM/YYYY') : 'N/A'}</td>
                                     <td><span className={`${statusClass()}`}>{status}</span></td>

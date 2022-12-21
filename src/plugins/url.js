@@ -1,10 +1,13 @@
 const baseUrl = () => {
-    return 'https://a5fd-41-58-242-199.eu.ngrok.io'  
+    return 'https://a0ab-41-58-251-76.eu.ngrok.io'  
+    return 'http://ec2-35-176-152-15.eu-west-2.compute.amazonaws.com:2028'  
 }
 
 
-//Sign in
+//Auth
 export const signIn = `${baseUrl()}/login`;
+export const updatePassword = `${baseUrl()}/api/v1/users/updatePassword`;
+export const forgotPassword = `${baseUrl()}/api/v1/users/forgotPassword`;
 
 //Dashboard
 export const dashboardData = `${baseUrl()}/api/v1/dashboard/data`;
@@ -12,6 +15,10 @@ export const dashboardData = `${baseUrl()}/api/v1/dashboard/data`;
 //Roles
 export const roles = `${baseUrl()}/api/v1/roles/view`;
 
+//Transactions
+export const viewTransactions = `${baseUrl()}/api/v1/transaction/view`;
+export const viewTransactionsParam = `${baseUrl()}/api/v1/transaction/viewallbyparam`;
+// 
 //Schemes
 export const viewSchemes = `${baseUrl()}/api/v1/scheme/view`;
 export const createScheme = `${baseUrl()}/api/v1/scheme/create`;
@@ -41,13 +48,14 @@ export const createClient = `${baseUrl()}/api/v1/clients/create`;
 export const viewClients = `${baseUrl()}/api/v1/clients/view`;
 export const updateClient = `${baseUrl()}/api/v1/clients/update`;
 export const deleteClient = `${baseUrl()}/api/v1/clients/delete`;
-
+export const viewClientsParam = `${baseUrl()}/api/v1/clients/search`;
 
 //Terminal
 export const createTerminal = `${baseUrl()}/api/v1/terminals/create`;
 export const viewTerminals = `${baseUrl()}/api/v1/terminals/view`;
 export const updateTerminal = `${baseUrl()}/api/v1/terminals/update`;
 export const deleteTerminal = `${baseUrl()}/api/v1/terminals/delete`;
+export const viewTerminalsParam = `${baseUrl()}/api/v1/terminals/view/byParam`;
 
 
 
@@ -57,6 +65,7 @@ export const createMerchant = `${baseUrl()}/api/v1/merchants/create`;
 export const viewMerchants = `${baseUrl()}/api/v1/merchants/view`;
 export const updateMerchant = `${baseUrl()}/api/v1/merchants/update`;
 export const deleteMerchant = `${baseUrl()}/api/v1/merchants/delete`;
+export const viewMerchantsParam = `${baseUrl()}/api/v1/merchants/view/byparam`;
 
 
 // export const getunassignedterminals = `${baseUrl().merchant}/agent/getunassignedterminals`;

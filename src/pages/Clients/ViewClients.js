@@ -10,7 +10,7 @@ import {RiDownloadCloudFill, RiAddBoxFill} from 'react-icons/ri';
 import {BiChevronDown} from 'react-icons/bi';
 import {Table, Col, Row, Container} from 'react-bootstrap'
 import NoResultFound from '../../components/noresultfound/NoResultFound';
-import { viewClients } from '../../plugins/url';
+import { viewClients, viewClientsParam } from '../../plugins/url';
 import axios from '../../plugins/axios'
 import { useNavigate } from 'react-router'
 
@@ -22,11 +22,13 @@ const ViewClient = () => {
     pageNo: 0,
     pageSize: 20,
     totalPages: 0,
+    clientEmail:'',
+    clientName:'',
     sortBy:"id",
     clientList:[]
   })
 
-  const {loading, pageNo, pageSize, sortBy, clientList, totalPages, processing} = state;
+  const {loading, pageNo, pageSize, sortBy, clientList, totalPages, processing, clientEmail, clientName} = state;
 
   const onChange =(e)=>{
     setState(state=>({
@@ -55,6 +57,47 @@ const ViewClient = () => {
         }))
       }
     }).catch(err=>{
+      console.log(err)
+    })
+  
+  }
+
+  const searchClient = () =>{
+       
+    setState(state=>({
+      ...state,
+      loading:true,
+    }))
+
+    let reqBody = {
+      pageNo,
+      pageSize,
+      sortBy,
+      param:{
+        clientEmail: clientEmail? clientEmail : undefined,
+        clientName: clientName ? clientName : undefined
+      }
+    }
+  
+    axios({
+      method: 'post',
+      url:`${viewClientsParam}`,
+      data:reqBody
+    }).then(res=>{
+      if(res.data.respCode === '00'){
+        const {content, totalPages} = res.data.respBody;
+        setState(state=>({
+          ...state,
+          loading:false,
+          clientList:content,
+          totalPages
+        }))
+      }
+    }).catch(err=>{
+      setState(state=>({
+        ...state,
+        loading:false
+      }))
       console.log(err)
     })
   
@@ -137,23 +180,18 @@ const ViewClient = () => {
               <Row>
                   <Col lg={4}>
                       <div className="filterItem">
-                        <label className="label">Status:</label>
-                        <select className="formcontrol" name="status" onChange={onChange}>
-                            <option value="">All</option>
-                            <option value="Active">Active</option>
-                            <option value="Inactive">Inactive</option>
-                        </select>
-                      </div>
-                  </Col>
-                  <Col lg={4}>
-                      <div className="filterItem">
                         <label className="label">Search:</label>
                         <input className="formcontrol" type="text" placeholder="Search by name" name="clientName" onChange = {onChange}/>
                       </div>
                   </Col>
+                  <Col lg={4}>
+                      <div className="filterItem">
+                        <input className="formcontrol" type="text" placeholder="Search by email" name="clientEmail" onChange = {onChange}/>
+                      </div>
+                  </Col>
                   <Col lg={1}>
                       <div>
-                          <button className="button-export" onClick={getAllClients}>
+                          <button className="button-export" onClick={searchClient}>
                             {
                               loading ?
                               <SubmitLoader />

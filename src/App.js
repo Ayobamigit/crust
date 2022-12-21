@@ -16,13 +16,14 @@ import Schemes from './pages/Schemes/Schemes';
 import Signin from './pages/Signin/Signin';
 import Stations from './pages/Stations/Stations';
 import Terminals from './pages/Terminals/Terminals';
+import Transactions from './pages/Transactions/Transactions';
 import AddUser from './pages/Users/AddUser';
 import ViewUser from './pages/Users/ViewUser';
 import ViewUsers from './pages/Users/ViewUsers';
 
-// const PrivateRoute = ({ children}) => {
-//   return localStorage.getItem('userDetails') ? children : <Navigate to="/sign-in" />
-// }
+const PrivateRoute = ({ children}) => {
+  return localStorage.getItem('userDetails') ? children : <Navigate to="/sign-in" />
+}
 
 function App() {
   return (
@@ -35,40 +36,44 @@ function App() {
 
         {/* Dashboard Management */}
 
-        <Route path='/dashboard' exact element={ <Dashboard />} />
+        <Route path='/dashboard' exact element={<PrivateRoute><Dashboard /> </PrivateRoute>} />
+
+        {/* Transaction management */}
+        <Route path='/transactions' exact element={<PrivateRoute><Transactions /> </PrivateRoute>} />
+
 
         {/* User Management */}
-        <Route path='/users' exact element={ <ViewUsers />} />
-        <Route path='/add-user' exact element={ <AddUser />} />
-        <Route path='/user/:id' exact element={ <ViewUser />} />
+        <Route path='/users' exact element={ <PrivateRoute><ViewUsers /></PrivateRoute>} />
+        <Route path='/add-user' exact element={ <PrivateRoute><AddUser /></PrivateRoute>} />
+        <Route path='/user/:id' exact element={ <PrivateRoute><ViewUser /></PrivateRoute>} />
 
         {/* Merchant Management */}
 
-        <Route path='/merchants' exact element={ <ViewMerchants />} />
-        <Route path='/merchant/:id' exact element={ <ViewMerchant />} />
-        <Route path='/add-merchant' exact element={ <AddMerchant />} />
+        <Route path='/merchants' exact element={ <PrivateRoute><ViewMerchants /></PrivateRoute>} />
+        <Route path='/merchant/:id' exact element={ <PrivateRoute><ViewMerchant /></PrivateRoute>} />
+        <Route path='/add-merchant' exact element={ <PrivateRoute><AddMerchant /></PrivateRoute>} />
 
         {/* Client Management */}
-        <Route path='/clients' exact element={ <ViewClients/>} />
-        <Route path='/client/:id' exact element={ <ViewClient/>} />
-        <Route path='/add-client' exact element={ <AddClient/>} />
+        <Route path='/clients' exact element={ <PrivateRoute><ViewClients/></PrivateRoute>} />
+        <Route path='/client/:id' exact element={ <PrivateRoute><ViewClient/></PrivateRoute>} />
+        <Route path='/add-client' exact element={ <PrivateRoute><AddClient/></PrivateRoute>} />
 
         {/* Terminal Management */}
-        <Route path='/terminals' exact element={ <Terminals/>} />
+        <Route path='/terminals' exact element={ <PrivateRoute><Terminals/></PrivateRoute>} />
 
         {/* Role Management */}
-        <Route path='/roles' exact element={ <Roles/>} />
+        <Route path='/roles' exact element={ <PrivateRoute><Roles/></PrivateRoute>} />
 
         {/* Scheme Management */}
-        <Route path='/schemes' exact element={ <Schemes/>} />
+        <Route path='/schemes' exact element={ <PrivateRoute><Schemes/></PrivateRoute>} />
 
         {/* Routes Management */}
-        <Route path='/routes' exact element={ <Routing/>} />
-        <Route path='/route/:id' exact element={ <ViewRoute/>} />
-        <Route path='/add-route' exact element={ <AddRoute/>} />
+        <Route path='/routes' exact element={ <PrivateRoute><Routing/></PrivateRoute>} />
+        <Route path='/route/:id' exact element={ <PrivateRoute><ViewRoute/></PrivateRoute>} />
+        <Route path='/add-route' exact element={ <PrivateRoute><AddRoute/></PrivateRoute>} />
 
         {/* Station Management */}
-        <Route path='/stations' exact element={ <Stations/>} />
+        <Route path='/stations' exact element={ <PrivateRoute><Stations/></PrivateRoute>} />
 
       </Routes>
     </Suspense>

@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 import './sidebar.scss'
-import { MdLayers, MdDevicesOther, MdSelectAll} from 'react-icons/md';
+import { MdLayers, MdDevicesOther, MdSelectAll, MdDashboard} from 'react-icons/md';
 import { FiUsers } from 'react-icons/fi';
 import { FaUsersCog } from 'react-icons/fa';
 import { BsDash } from 'react-icons/bs';
@@ -108,6 +108,12 @@ const Sidebar = (props) => {
                                 </NavLink>
                             </li>
                         </ul>
+                    </li>
+                </ul>
+
+                <ul className={props.title === 'Transactions' ? 'side-navigation-active': 'side-navigation'}>
+                    <li>
+                        <MdDashboard className={props.title === 'Transactions' ? 'active-icon': 'side-icon'} size={20} /><NavLink to="/transactions">Transactions</NavLink>
                     </li>
                 </ul>
 

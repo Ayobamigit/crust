@@ -27,7 +27,16 @@ const Dashboard = () => {
     transactionSuccessCount :  0
   })
   const {clientsList, merchantList, stationList, terminalsList, transactionFailureCount, transactionSuccessCount, usersList, interswitchSuccess, unifiedPayment} = state
+
+  let reloadCount = 0
+
   useEffect(()=>{
+
+    reloadCount = JSON.parse(localStorage.getItem('reloadCount'));
+    if (reloadCount === 0) {
+      window.location.reload()
+      localStorage.setItem('reloadCount', reloadCount + 1)
+    }
     axios({
       url:`${dashboardData}`,
       method:'get'

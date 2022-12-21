@@ -1,24 +1,35 @@
-import React, { useState, useContext } from 'react'
-import {FaEyeSlash, FaEye} from 'react-icons/fa'
-import SubmitLoader from '../../components/submitloader/SubmitLoader';
-import LoginError from '../../components/loginerror/LoginError';
-import { signIn } from '../../plugins/url';
+import React, { useState, useContext, createContext } from 'react'
+import { forgotPassword, signIn, updatePassword } from '../../plugins/url';
 import axios from '../../plugins/axios';
 import { useNavigate } from 'react-router';
 import { authContext } from '../../context/AuthenticationContext';
 import logo from '../../assets/img/logo.png'
+import SignIn from '../../components/authcomponents/SignIn';
+import ForgotPassword from '../../components/authcomponents/ForgotPassword';
+import UpdatePassword from '../../components/authcomponents/UpdatePassword';
+import Swal from '../../plugins/swal';
 
 
+export const LoginContext = createContext()
 const Signin = () => {
   const {setAuthenticationStatus} = useContext(authContext)
   const navigate = useNavigate()
   const[state, setState] = useState({
+    route:'login',
     username:'',
     password:'',
+    oldPassword:'',
+    newPassword:'',
+    confirmPassword:'',
+    email:'',
     loginError:false,
+    isPasswordShown: false,
+    isOldPasswordShown: false,
+    isNewPasswordShown:false, 
+    isConfirmPasswordShown:false,
   })
 
-  const {loginError, isPasswordShown, username, password, error, isLoggingIn} = state;
+  const {isPasswordShown, isOldPasswordShown, isNewPasswordShown, isConfirmPasswordShown, username, password, email, oldPassword, newPassword, route} = state;
 
   const onChange =(e)=>{
     setState(state=>({
@@ -81,14 +92,144 @@ const Signin = () => {
       });
   }
 
-  const togglePassword = () =>{
-      setState({
-          ...state,
-          isPasswordShown : !isPasswordShown
-      }) 
-  } 
+  const togglePassword = (value) =>{
+    if(value==='old'){
+        setState({
+            ...state,
+            isOldPasswordShown : !isOldPasswordShown
+        }) 
+    }else if(value === 'new'){
+        setState({
+            ...state,
+            isNewPasswordShown : !isNewPasswordShown
+        }) 
+    }else if(value === 'confirm'){
+        setState({
+            ...state,
+            isConfirmPasswordShown : !isConfirmPasswordShown
+        }) 
+    }else{
+        setState({
+            ...state,
+            isPasswordShown : !isPasswordShown,
+        })
+    }
+    
+} 
 
+  const onRouteChange = (value) =>{
+        setState(state=>({
+            ...state,
+            route: value
+        }))
+    }
+
+    const onValidateEmail = (e) =>{
+        e.preventDefault();
+        setState(state=>({
+            ...state,
+            isLoggingIn: true
+        }))
+
+        axios({
+            url:`${forgotPassword}/${email}`,
+            method: 'get',
+        }).then(res=>{
+            setState(state=>({
+                ...state,
+                isLoggingIn: false
+            }))
+
+            if(res.status === 200){
+                setState(state=>({
+                    ...state,
+                    route: 'change'
+                }))
+            }
+
+        }).catch(err => {
+            setState(state=>({
+                ...state,
+                isLoggingIn: false,
+                loginError: true,
+                error: err.response.data.messagee
+            }))
+        });
+    }
+
+    const onUpdatePassword=(e)=>{
+        e.preventDefault();
+        setState(state=>({
+            ...state,
+            isLoggingIn: true
+        }))
+
+        let reqBody = {
+            email,
+            oldPassword,
+            newPassword,
+        }
+
+        axios({
+            url:`${updatePassword}`,
+            method: 'post',
+            data: reqBody
+        }).then(res=>{
+
+            setState(state=>({
+                ...state,
+                isLoggingIn: false
+            }))
+
+            if(res.status === 200){
+                Swal.fire({
+                    // type:'success',
+                    title: 'Successful....',
+                    icon: 'success',
+                    text: `Password change successful! Kindly login again with your new password`
+                })
+                setState(state=>({
+                    ...state,
+                    route: 'login'
+                }))
+            }
+
+        }).catch(err => {
+            Swal.fire({
+                // type:'success',
+                title: 'Ooops....',
+                icon: 'error',
+                text: `An error occured while trying to change password`
+            })
+            setState(state=>({
+                ...state,
+                isLoggingIn: false,
+            }))
+        });
+    }
+
+    const renderPages = () =>{
+        switch(route){
+            case 'login':
+                return <SignIn />;
+            case 'forgot':
+                return <ForgotPassword/>;
+            case 'change':
+                return <UpdatePassword />;
+            default:
+                return <SignIn />
+        }
+    }
   return (
+    <LoginContext.Provider value={{
+        state,
+        onSignIn,
+        onChange,
+        onRouteChange,
+        onValidateEmail,
+        onUpdatePassword,
+        togglePassword
+    }}>
     <div className="d-flex flex-column flex-root bgi-position-top">
       <div className="login login-4 login-signin-on d-flex flex-row-fluid">
           <div className="d-flex flex-center flex-row-fluid">
@@ -97,71 +238,12 @@ const Signin = () => {
                       <img src={logo} alt="Logo" className="max-h-75px"  />
                   </div>
 
-                <div className="login-signin">
-                <div className="my-20">
-                    <h1 className="sign-head">Welcome to CRUST</h1>
-                    <div className="sign-muted">
-                            Enter your details to login to your account:
-                    </div>
-                </div>
-          
-                <form className="form fv-plugins-bootstrap fv-plugins-framework" onSubmit={onSignIn}>
-                  <div className="formgroup mb-5 fv-plugins-icon-container">
-                      <input 
-                          className="formcontrol formcontrolsolid h-auto py-04 px-8"
-                          type="text"
-                          placeholder="Username" 
-                          name="username" 
-                          onChange={onChange}
-                          required
-                      />
-                      <div className="fv-plugins-message-container"></div>
-                  </div>
-                  <div className="formgroup mb-5 fv-plugins-icon-container">
-                      <input 
-                          className="formcontrol formcontrolsolid h-auto py-04 px-8"
-                          placeholder="Password" 
-                          name="password" 
-                          // autoComplete='new-password'
-                          onChange={onChange}
-                          type= {isPasswordShown ? "text" : "password"} 
-                          required
-                      />
-                      {
-                      isPasswordShown?
-                      
-                      <FaEyeSlash size={22} className="password-icon" style={{fill: '#3E2E26'}}  onClick={togglePassword}  />
-                      :
-                      
-                      <FaEye className="password-icon" style={{fill: '#3E2E26'}} size={22} onClick={togglePassword}  />
-                      
-                      }
-                      <div className="fv-plugins-message-container"></div>
-                  </div>
-                  {
-                      loginError ?
-                      <LoginError error={error} />
-                      :
-                      null
-                  }
-
-                  
-                  <button className="button-primary px-9 py-04 w-100" disabled={isLoggingIn} style={{fontSize:'16px'}}>
-                      {
-                          isLoggingIn ?
-                          <SubmitLoader />
-                          :
-                          'Sign In'
-                      }
-                  </button>
-              
-                  <input type="hidden" /><div></div>
-                </form>
-             </div>
+                {renderPages()}
             </div>
           </div> 
       </div>
     </div>
+    </LoginContext.Provider>
   )
 }
 
