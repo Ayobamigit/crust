@@ -1,6 +1,6 @@
 const baseUrl = () => {
     // return 'https://a0ab-41-58-251-76.eu.ngrok.io'  
-    return 'http://ec2-35-176-152-15.eu-west-2.compute.amazonaws.com:2028'  
+    return process.env.REACT_APP_BASE_URL 
 }
 
 

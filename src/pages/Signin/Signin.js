@@ -4,9 +4,9 @@ import axios from '../../plugins/axios';
 import { useNavigate } from 'react-router';
 import { authContext } from '../../context/AuthenticationContext';
 import logo from '../../assets/img/logo.png'
-import SignIn from '../../components/authcomponents/SignIn';
-import ForgotPassword from '../../components/authcomponents/ForgotPassword';
-import UpdatePassword from '../../components/authcomponents/UpdatePassword';
+import SignIn from '../../components/autocomponents/SignIn';
+import ForgotPassword from '../../components/autocomponents/ForgotPassword';
+import UpdatePassword from '../../components/autocomponents/UpdatePassword';
 import Swal from '../../plugins/swal';
 
 
