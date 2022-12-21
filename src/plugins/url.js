@@ -1,5 +1,5 @@
 const baseUrl = () => {
-    return 'https://a0ab-41-58-251-76.eu.ngrok.io'  
+    // return 'https://a0ab-41-58-251-76.eu.ngrok.io'  
     return 'http://ec2-35-176-152-15.eu-west-2.compute.amazonaws.com:2028'  
 }
 
@@ -56,6 +56,7 @@ export const viewTerminals = `${baseUrl()}/api/v1/terminals/view`;
 export const updateTerminal = `${baseUrl()}/api/v1/terminals/update`;
 export const deleteTerminal = `${baseUrl()}/api/v1/terminals/delete`;
 export const viewTerminalsParam = `${baseUrl()}/api/v1/terminals/view/byParam`;
+export const remapTerminal = `${baseUrl()}/api/v1/terminals/view/remap`;
 
 
 
@@ -66,60 +67,4 @@ export const viewMerchants = `${baseUrl()}/api/v1/merchants/view`;
 export const updateMerchant = `${baseUrl()}/api/v1/merchants/update`;
 export const deleteMerchant = `${baseUrl()}/api/v1/merchants/delete`;
 export const viewMerchantsParam = `${baseUrl()}/api/v1/merchants/view/byparam`;
-
-
-// export const getunassignedterminals = `${baseUrl().merchant}/agent/getunassignedterminals`;
-
-// export const registerMerchant = `${baseUrl().merchant}/agent/registermerchant`;
-
-// export const updateMerchant = `${baseUrl().merchant}/agent/updatemerchant`;
-
-// export const updateMerchantID = `${baseUrl().agency}/agent/updateMerchantUserID`;
-
-// export const mapTerminal = `${baseUrl().merchant}/agent/assignterminal`;
-
-// export const unMapTerminal = `${baseUrl().merchant}/agent/unassignterminal`;
-
-// export const viewMerchant = `${baseUrl().merchant}/agent/viewmerchantbyid`;
-
-// export const viewMerchantTerminals = `${baseUrl().merchant}/agent/getmerchantterminals`;
-
-// export const activateMerchant = `${baseUrl().merchant}/agent/activatemerchant`;
-
-// export const deactivateMerchant = `${baseUrl().merchant}/agent/deactivatemerchant`;
-
-
-// //Transaction Services
-
-// export const allTransactions = `${baseUrl().transactions}/transactions/viewalltransactionsbyuser`;
-
-// export const viewTransaction = `${baseUrl().transactions}/transactions/viewonetransactionsbyuser`;
-
-// export const transactionStats = `${baseUrl().transactions}/transactions/transactioncount`;
-
-// export const revenueStats = `${baseUrl().dispute}/api/v1/settlement/getTransactionStats`;
-
-
-// //Activity Logs
-// export const viewActivity = `${baseUrl().audit}/auditlogs/viewalliserlogs`;
-
-// //Dispute service
-// export const allWayaDisputes = `${baseUrl().dispute}/wayaposDisputes/viewAllDisputes`;
-
-// export const allAuthDisputes = `${baseUrl().dispute}/auth-notification-dispute/viewAllDisputes`;
-
-// export const createAuthDisputes = `${baseUrl().dispute}/auth-notification-dispute/createDispute`;
-
-// export const allOtherDisputes = `${baseUrl().dispute}/othersDispute/viewAllDisputes`;
-
-// export const createOtherDispute = `${baseUrl().dispute}/othersDispute/createDispute`;
-
-// //Settlement
-// export const allSettlement = `${baseUrl().dispute}/api/v1/settlement/viewusersettlement`;
-
-// export const getSettlementDetails = `${baseUrl().dispute}/api/v1/settlement/viewusersettlementbyid`;
-
-// export const settlementStats = `${baseUrl().dispute}/api/v1/settlement/getSettlementStats`;
-
-
 

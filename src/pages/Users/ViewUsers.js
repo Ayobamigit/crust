@@ -134,7 +134,7 @@ const ViewUsers = () => {
             </div>
           </div>
 
-          <div className="mt-30">
+          {/* <div className="mt-30">
               <Row>
                   <Col lg={4}>
                       <div className="filterItem">
@@ -165,7 +165,7 @@ const ViewUsers = () => {
                       </div>
                   </Col>
               </Row> 
-          </div>
+          </div> */}
           
           <div className="mt-30">
             <Table responsive borderless className="bg-inherit" id="AllAgents">

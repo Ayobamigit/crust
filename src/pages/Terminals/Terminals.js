@@ -7,7 +7,7 @@ import {FiEdit} from 'react-icons/fi'
 import Modal from '../../components/modal/Modal';
 import axios from '../../plugins/axios'
 import swal from '../../plugins/swal';
-import {createTerminal, deleteTerminal, updateTerminal, viewMerchants, viewTerminals, viewTerminalsParam } from '../../plugins/url';
+import {createTerminal, deleteTerminal, remapTerminal, updateTerminal, viewMerchants, viewTerminals, viewTerminalsParam } from '../../plugins/url';
 import appNotification from '../../plugins/appNotification';
 import NoResultFound from '../../components/noresultfound/NoResultFound';
 import AddTerminal from '../../components/configcomponents/AddTerminal';
@@ -217,6 +217,51 @@ const onEditTerminal = () =>{
   })
 }
 
+const onRemapTerminal = () =>{
+  setState(state=>({
+    ...state,
+    loading: true
+  }))
+
+  let reqBody = {
+    merchantId, 
+    terminalID,
+    terminalSerialNumber,
+    terminalType
+  }
+  axios({
+    method: 'post',
+    url:`${remapTerminal}`,
+    data:reqBody
+  }).then(res=>{
+    if(res.data.respCode === '00'){
+      setState(state=>({
+        ...state,
+        loading:false,
+        add:false
+      }))
+      swal.fire({
+        // type:'success',
+        title: 'Successful....',
+        icon: 'success',
+        text: `Terminal re-mapped successfully`
+      })
+      getAllTerminals()
+    }
+  }).catch(err=>{
+    setState(state=>({
+      ...state,
+      loading:false
+    }))
+    swal.fire({
+      // type:'success',
+      title: 'Error',
+      icon: 'error',
+      text: `Error updating Terminals`
+    })
+  })
+}
+
 const onDelete = (id) =>{
   swal.fire({
       title: 'Are you sure?',
@@ -291,9 +336,9 @@ useEffect(()=>{
        <Modal 
         show = {add} 
         clicked={showModal} 
-        title={modalValue === 'add' ? 'Add Terminal' : 'Edit Terminal'}
-        action={modalValue === 'add' ? 'Add Terminal' : 'Update Terminal'}
-        submit={modalValue === 'add' ? onCreateTerminal : onEditTerminal}
+        title={modalValue === 'add' ? 'Add Terminal' : modalValue === 'map' ? 'Remap Terminal'  : 'Edit Terminal'}
+        action={modalValue === 'add' ? 'Add Terminal' : modalValue === 'map' ? 'Remap Terminal'  : 'Update Terminal'}
+        submit={modalValue === 'add' ? onCreateTerminal : modalValue === 'map' ? onRemapTerminal : onEditTerminal}
         loading={loading}
       >
       <AddTerminal 
@@ -362,7 +407,8 @@ useEffect(()=>{
                             <th>terminal id</th>
                             <th>terminal type</th>
                             <th>terminal serial no</th>
-                            <th>merchant</th>
+                            <th>merchant name</th>
+                            <th>merchant id</th>
                             <th>action</th>
                         </tr>
                     </thead>
@@ -380,8 +426,9 @@ useEffect(()=>{
                                   <td>{terminalID}</td>
                                   <td>{terminalType}</td>
                                   <td>{terminalSerialNumber}</td>
+                                  <td>{merchant?.firstName + ' ' + merchant?.lastName}</td>
                                   <td>{merchant?.merchantID}</td>
-                                  <td><FiEdit onClick={()=>showModal('edit', terminal)} size={20} className="crust-grey mr-15" />< RiDeleteBin5Line size={20}  className="crust-danger" onClick={()=>{onDelete(terminalID)}} /></td>
+                                  <td><span className='tabgrey mr-15' onClick={()=>showModal('map', terminal)} >Remap</span><FiEdit onClick={()=>showModal('edit', terminal)} size={20} className="crust-grey mr-15" />< RiDeleteBin5Line size={20}  className="crust-danger" onClick={()=>{onDelete(terminalID)}} /></td>
                               </tr>
                               )
                           })

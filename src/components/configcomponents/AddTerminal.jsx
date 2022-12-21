@@ -36,6 +36,7 @@ const AddTerminal = (props) => {
                 required
             >
                 <option value="">Select type</option>
+                <option value="NEXGO">NEXGO</option>
                 <option value="PAX">PAX</option>
                 <option value="Topwise">Topwise</option>
                 
