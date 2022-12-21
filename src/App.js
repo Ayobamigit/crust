@@ -29,7 +29,7 @@ function App() {
   return (
     <Suspense fallback="f">
       <Routes>
-        {/* <Route path='/' exact element={ <PrivateRoute><Dashboard /> </PrivateRoute> }/> */}
+        <Route path='/' exact element={ <PrivateRoute><Dashboard /> </PrivateRoute> }/>
 
         {/* Login */}
         <Route path='/sign-in' exact element={<Signin />} />
