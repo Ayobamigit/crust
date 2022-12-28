@@ -16,6 +16,7 @@ import Schemes from './pages/Schemes/Schemes';
 import Signin from './pages/Signin/Signin';
 import Stations from './pages/Stations/Stations';
 import Terminals from './pages/Terminals/Terminals';
+import Transaction from './pages/Transactions/Transaction';
 import Transactions from './pages/Transactions/Transactions';
 import AddUser from './pages/Users/AddUser';
 import ViewUser from './pages/Users/ViewUser';
@@ -40,6 +41,7 @@ function App() {
 
         {/* Transaction management */}
         <Route path='/transactions' exact element={<PrivateRoute><Transactions /> </PrivateRoute>} />
+        <Route path='/transaction/:id' exact element={<PrivateRoute><Transaction /> </PrivateRoute>} />
 
 
         {/* User Management */}

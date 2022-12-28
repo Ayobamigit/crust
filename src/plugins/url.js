@@ -17,6 +17,7 @@ export const roles = `${baseUrl()}/api/v1/roles/view`;
 
 //Transactions
 export const viewTransactions = `${baseUrl()}/api/v1/transaction/view`;
+export const viewTransaction = `${baseUrl()}/api/v1/transaction`;
 export const viewTransactionsParam = `${baseUrl()}/api/v1/transaction/viewallbyparam`;
 // 
 //Schemes
@@ -34,6 +35,7 @@ export const deleteStation = `${baseUrl()}/api/v1/stations/delete`;
 // Routes
 export const viewRoutes = `${baseUrl()}/api/v1/routes/view`;
 export const createRoute = `${baseUrl()}/api/v1/routes/create`;
+export const updateRoute = `${baseUrl()}/api/v1/routes/update`;
 export const deleteRoute = `${baseUrl()}/api/v1/routes/delete`;
 
 // Users 

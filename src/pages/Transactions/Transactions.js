@@ -12,8 +12,10 @@ import moment from 'moment'
 import ReactPaginate from 'react-paginate'
 import ReactHtmlTableToExcel from 'react-html-table-to-excel'
 import SubmitLoader from '../../components/submitloader/SubmitLoader'
+import { useNavigate } from 'react-router'
 
 const Transactions = () => {
+    const navigate = useNavigate()
     const [state, setState] = useState({
         transactionList:[],
         pageNo:0,
@@ -22,11 +24,12 @@ const Transactions = () => {
         sortBy:"id",
         terminalID:"",
         transactionReference:"",
+        clientID:'',
         loading:false,
         processing: false,
     })
 
-    const {pageNo, pageSize, sortBy, transactionList, totalPages, loading, processing, terminalID, transactionReference} = state
+    const {pageNo, pageSize, sortBy, transactionList, totalPages, loading, processing, terminalID, transactionReference, clientID} = state
     useEffect(()=>{ 
         getAllTransactions()
       
@@ -97,6 +100,7 @@ const Transactions = () => {
           param:{
             terminalID: terminalID? terminalID : undefined,
             transactionReference : transactionReference ? transactionReference : undefined,
+            clientID  : clientID ? clientID : undefined,
           }
         }
       
@@ -181,16 +185,22 @@ const Transactions = () => {
 
           <div className="mt-30">
               <Row>
-                  <Col lg={5}>
+                  <Col lg={4}>
                       <div className="filterItem">
                         <label className="label">Terminal ID:</label>
                         <input className="formcontrol" type="text" placeholder="Search by terminal Id" name="terminalID" onChange = {onChange}/>
                       </div>
                   </Col>
-                  <Col lg={4}>
+                  <Col lg={3}>
                       <div className="filterItem">
                         <label className="label">RRN:</label>
                         <input className="formcontrol" type="text" placeholder="Search by rrn" name="transactionReference" onChange = {onChange}/>
+                      </div>
+                  </Col>
+                  <Col lg={3}>
+                      <div className="filterItem">
+                        <label className="label">Client ID:</label>
+                        <input className="formcontrol" type="text" placeholder="Search by client id" name="clientID" onChange = {onChange}/>
                       </div>
                   </Col>
                   <Col lg={1}>
@@ -223,6 +233,7 @@ const Transactions = () => {
                             <th>Created At</th>
                             <th>Payment Code</th>
                             <th>Payment Status</th>
+                            <th>action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -231,7 +242,7 @@ const Transactions = () => {
                           <NoResultFound />
                           :
                           transactionList.map((transaction, i)=>{
-                            const{de37, de41, terminals, createdAt, paymentStatus, de4, id, responsecode, processedBy} = transaction;
+                            const{de37, de41, terminals, createdAt, de4, id, responsecode, processedBy} = transaction;
                             let status = ''
                             const statusClass = () =>{
                                 if(responsecode === '00'){
@@ -278,7 +289,7 @@ const Transactions = () => {
                                 <td>{createdAt ? moment(new Date(createdAt)).format('D/MM/YYYY') : 'N/A'}</td>
                                 <td>{responsecode}</td>
                                 <td><span className={`${statusClass()}`}>{status}</span></td>
-                                {/* <td><span className="tabtransparent" onClick={()=>{navigate(`/transaction/${id}`)}}>View More</span></td> */}
+                                <td><span className="tabgrey" onClick={()=>{navigate(`/transaction/${id}`)}}>View More</span></td>
                             </tr>
                             )
                           })

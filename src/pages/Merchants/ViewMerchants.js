@@ -216,6 +216,7 @@ const ViewMerchants = () => {
                         <th>state</th>
                         <th>date created</th>
                         <th>status</th>
+                        <th>action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -239,7 +240,7 @@ const ViewMerchants = () => {
                                 }
 
                                 return(
-                                    <tr key={i} onClick={() => {navigate(`/merchant/${id}`)}}>
+                                    <tr key={i}>
                                     <td>{i+1}</td>
                                     <td>{merchantID ? merchantID : 'N/A'}</td>
                                     <td>{firstName + ' ' + lastName}</td>
@@ -247,6 +248,7 @@ const ViewMerchants = () => {
                                     <td>{state ? state : 'N/A'}</td>
                                     <td>{dateCreated ? moment(new Date(dateCreated)).format('D/MM/YYYY') : 'N/A'}</td>
                                     <td><span className={`${statusClass()}`}>{status}</span></td>
+                                    <td><span className='tabgrey mr-15' onClick={() => {navigate(`/merchant/${id}`)}}>View</span></td>
                                 </tr>
                                 )
                             })

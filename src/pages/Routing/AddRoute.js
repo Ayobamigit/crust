@@ -13,7 +13,7 @@ const AddRoute = () => {
   const [state, setState] = useState({
     id:'',
     type:'',
-    clientsId:'ADMIN',
+    clientsId:'',
     minimumAmount:'',
     maximumAmount:'',
     scheme:'',
@@ -167,7 +167,7 @@ const onCreateRoute = (e) =>{
         <div className="TableList" style={{width:"70%"}}>
         
           <h6 className="crust-dark-blue-light pt-25 ml-25 mb-20">
-              User Details
+              Route Details
           </h6>
 
           <div className="line"></div>
@@ -305,7 +305,7 @@ const onCreateRoute = (e) =>{
                             schemes ?
                             schemes.map((scheme, i)=>{
                               return (
-                              <option value={scheme.id} key={i}>
+                              <option value={scheme.name} key={i}>
                                 {scheme.name}
                               </option>
                               )

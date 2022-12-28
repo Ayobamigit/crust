@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import withTimeout from '../../hoc/withTimeout'
 import Layout from '../../components/layout/Layout'
 import { deleteRoute, viewRoutes } from '../../plugins/url'
-import {RiAddBoxFill, RiDeleteBin5Line} from 'react-icons/ri';
+import {RiAddBoxFill} from 'react-icons/ri';
 import {FiEdit} from 'react-icons/fi'
 import { Container, Table } from 'react-bootstrap'
 import axios from '../../plugins/axios'
@@ -47,40 +47,6 @@ const Routing = () => {
     })
   
   }
-
-  const onDelete = (id) =>{
-    swal.fire({
-        title: 'Are you sure?',
-        text: "Are you sure you want to delete this scheme!",
-        icon: 'warning',
-        showCancelButton: true,
-        confirmButtonText: 'Yes' 
-    })
-    .then(remove=>{
-      if(remove.isConfirmed){
-  
-          axios({
-              method: 'delete',
-              url: `${deleteRoute}/${id}/`,
-          })
-          .then(res=>{
-              // if(res.data.status.toLowerCase() === 'success'){
-                appNotification(res.message, 'Delete', 'success');
-              //   getAllSchemes()
-              // }else{
-              //   appNotification(data.message, 'Registration', 'success');
-              //   setTimeout(() => {
-              //     appNotification('Please check your email to verify your account', 'Verify Account', 'success');
-              //   }, [3000]);
-              // }
-          })
-          .catch(err => {
-            appNotification(err.message, 'Delete error', 'error');
-          });
-      }
-    })
-  }
-
   useEffect(()=>{
     getAllRoutes()
   },[])
@@ -129,7 +95,7 @@ const Routing = () => {
                                     <td>{type}</td>
                                     <td>{maximumAmount}</td>
                                     <td>{minimumAmount}</td>
-                                    {/* <td><FiEdit onClick={()=>showModal('edit', user)} size={20} className="camp-grey mr-15" />< RiDeleteBin5Line size={20}  className="camp-danger" onClick={()=>{onDeleteType(id)}} /></td> */}
+                                    <td><FiEdit onClick={()=>navigate(`/route/${id}`)} size={20} className="camp-grey mr-15" /></td>
                                 </tr>
                                 )
                             })

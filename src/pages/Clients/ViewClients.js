@@ -214,6 +214,7 @@ const ViewClient = () => {
                         <th>email</th>
                         <th>date created</th>
                         <th>status</th>
+                        <th>action</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -237,13 +238,14 @@ const ViewClient = () => {
                                 }
 
                                 return(
-                                    <tr key={i} onClick={() => {navigate(`/client/${id}`)}}>
+                                    <tr key={i} >
                                     <td>{i+1}</td>
                                     <td>{clientName}</td>
                                     <td>{clientPhone}</td>
                                     <td>{clientEmail}</td>
                                     <td>{dateCreated ? moment(new Date(dateCreated)).format('D/MM/YYYY') : 'N/A'}</td>
                                     <td><span className={`${statusClass()}`}>{status}</span></td>
+                                    <td><span className='tabgrey mr-15' onClick={() => {navigate(`/client/${id}`)}}>View</span></td>
                                 </tr>
                                 )
                             })
