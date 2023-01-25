@@ -68,8 +68,7 @@ const Dashboard = () => {
     labels: [ 'Successful', 'Failed'],
     datasets:[
         {
-            data:[ 10, 10],
-            // data:[ transactionSuccessCount, transactionFailureCount],
+            data:[ transactionSuccessCount, transactionFailureCount],
             // borderColor:'transparent',
             backgroundColor:[
                 '#1BC5BD',
@@ -89,8 +88,7 @@ const Dashboard = () => {
     labels: [ 'Unified Payment', 'Interswitch'],
     datasets:[
         {
-            data:[ 50, 50],
-            // data:[ unifiedPayment, interswitchSuccess],
+            data:[ unifiedPayment, interswitchSuccess],
             // borderColor:'transparent',
             backgroundColor:[
                 '#1BC5BD',
@@ -217,14 +215,14 @@ const Dashboard = () => {
                 <List className='fill-success mr-05'/>
                 Successful Count
               </p>
-              <h3 className='fs-14 text-heading fw-600 mt-08' style={{paddingLeft:'14px'}}>10</h3>
+              <h3 className='fs-14 text-heading fw-600 mt-08' style={{paddingLeft:'14px'}}>{transactionSuccessCount}</h3>
             </div>
             <div className='px-4'>
               <p className='text-grey fs-12 mb-0'>
                 <List className='fill-danger mr-05'/>
                 Failed Count
               </p>
-              <h3 className='fs-14 text-heading fw-600 mt-08' style={{paddingLeft:'14px'}}>10</h3>
+              <h3 className='fs-14 text-heading fw-600 mt-08' style={{paddingLeft:'14px'}}>{transactionFailureCount}</h3>
             </div>
           </div>
         </div>
@@ -272,14 +270,14 @@ const Dashboard = () => {
                 <List className='fill-blue mr-05'/>
                 Interswitch Success %
               </p>
-              <h3 className='fs-14 text-heading fw-600 mt-08' style={{paddingLeft:'14px'}}>10%</h3>
+              <h3 className='fs-14 text-heading fw-600 mt-08' style={{paddingLeft:'14px'}}>{interswitchSuccess || 0}%</h3>
             </div>
             <div className='px-4'>
               <p className='text-grey fs-12 mb-0'>
                 <List className='fill-success mr-05'/>
                 Unified Payment Success %
               </p>
-              <h3 className='fs-14 text-heading fw-600 mt-08' style={{paddingLeft:'14px'}}>10%</h3>
+              <h3 className='fs-14 text-heading fw-600 mt-08' style={{paddingLeft:'14px'}}>{unifiedPayment || 0}%</h3>
             </div>
           </div>
         </div>
