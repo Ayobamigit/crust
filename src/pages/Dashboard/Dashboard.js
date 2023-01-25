@@ -36,29 +36,31 @@ const Dashboard = () => {
     if (reloadCount === 0) {
       window.location.reload()
       localStorage.setItem('reloadCount', reloadCount + 1)
+    }else{
+      axios({
+        url:`${dashboardData}`,
+        method:'get'
+      }).then(res=>{
+        if(res.data.respCode === '00'){
+          const {clientsList, merchantList, stationList, terminalsList, transactionFailureCount, transactionSuccessCount, usersList, stationSuccessPercentage} = res.data.respBody
+          setState(state=>({
+            ...state,
+            clientsList,
+            merchantList,
+            usersList,
+            stationList,
+            terminalsList,
+            interswitchSuccess: stationSuccessPercentage?.interswitchSuccess,
+            unifiedPayment: stationSuccessPercentage?.unifiedPayment,
+            transactionFailureCount,
+            transactionSuccessCount
+          }))
+        }
+      }).catch(err=>{
+        console.log(err)
+      })
     }
-    axios({
-      url:`${dashboardData}`,
-      method:'get'
-    }).then(res=>{
-      if(res.data.respCode === '00'){
-        const {clientsList, merchantList, stationList, terminalsList, transactionFailureCount, transactionSuccessCount, usersList, stationSuccessPercentage} = res.data.respBody
-        setState(state=>({
-          ...state,
-          clientsList,
-          merchantList,
-          usersList,
-          stationList,
-          terminalsList,
-          interswitchSuccess: stationSuccessPercentage?.interswitchSuccess,
-          unifiedPayment: stationSuccessPercentage?.unifiedPayment,
-          transactionFailureCount,
-          transactionSuccessCount
-        }))
-      }
-    }).catch(err=>{
-      console.log(err)
-    })
+   
   },[])
 
   const value ={
