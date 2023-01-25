@@ -33,6 +33,8 @@ const Dashboard = () => {
   useEffect(()=>{
 
     reloadCount = JSON.parse(localStorage.getItem('reloadCount'));
+    debugger;
+
     if (reloadCount === 0) {
       window.location.reload()
       localStorage.setItem('reloadCount', reloadCount + 1)
