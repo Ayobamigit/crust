@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import withTimeout from '../../hoc/withTimeout'
 import Layout from '../../components/layout/Layout'
-import { deleteRoute, viewRoutes } from '../../plugins/url'
+import {viewRoutes, searchRoute } from '../../plugins/url'
 import {RiAddBoxFill} from 'react-icons/ri';
 import {FiEdit} from 'react-icons/fi'
-import { Container, Table } from 'react-bootstrap'
+import { Container, Table, Row, Col } from 'react-bootstrap'
 import axios from '../../plugins/axios'
-import swal from '../../plugins/swal';
 import { useNavigate } from 'react-router'
-import appNotification from '../../plugins/appNotification';
 import NoResultFound from '../../components/noresultfound/NoResultFound';
+import SubmitLoader from '../../components/submitloader/SubmitLoader';
 
 const Routing = () => {
   const navigate = useNavigate();
@@ -18,10 +17,13 @@ const Routing = () => {
     pageNo:0,
     pageSize:20,
     sortBy: "id",
-    loading:false
+    loading:false,
+    scheme:'',
+    client:'',
+    station:''
   })
 
-  const {routeList, pageNo, pageSize, sortBy} = state
+  const {routeList, pageNo, pageSize, sortBy, scheme, client, station, loading} = state
 
   const getAllRoutes = () =>{
     let reqBody = {
@@ -43,6 +45,54 @@ const Routing = () => {
         }))
       }
     }).catch(err=>{
+      console.log(err)
+    })
+  
+  }
+
+  const onChange =(e)=>{
+    setState(state=>({
+        ...state,
+       [ e.target.name]: e.target.value
+    }))
+  }
+
+  const searchRoutes = () =>{
+       
+    setState(state=>({
+      ...state,
+      loading:true,
+    }))
+
+    let reqBody = {
+      pageNo,
+      pageSize,
+      sortBy,
+      param:{
+        scheme: scheme || undefined,
+        countryCode: client || undefined,
+        countryCode: station || undefined
+      }
+    }
+  
+    axios({
+      method: 'post',
+      url:`${searchRoute}`,
+      data:reqBody
+    }).then(res=>{
+      if(res.data.respCode === '00'){
+        const {content} = res.data.respBody;
+        setState(state=>({
+          ...state,
+          loading:false,
+          routeList:content,
+        }))
+      }
+    }).catch(err=>{
+      setState(state=>({
+        ...state,
+        loading:false
+      }))
       console.log(err)
     })
   
@@ -71,11 +121,50 @@ const Routing = () => {
             </div>
 
             <div className="mt-30">
+              <Row>
+                  <Col lg={4}>
+                      <div className="filterItem">
+                        <label className="label">Search:</label>
+                        <input className="formcontrol" type="text" placeholder="Search by scheme name" name="scheme" onChange = {onChange}/>
+                      </div>
+                  </Col>
+
+                  <Col lg={3}>
+                      <div className="filterItem">
+                        <label className="label">Search:</label>
+                        <input className="formcontrol" type="text" placeholder="Search by processor" name="station" onChange = {onChange}/>
+                      </div>
+                  </Col>
+                  <Col lg={4}>
+                      <div className="filterItem">
+                        <label className="label">Search:</label>
+                        <input className="formcontrol" type="text" placeholder="Search by client name" name="client" onChange = {onChange}/>
+                      </div>
+                  </Col>
+                  <Col lg={1}>
+                      <div>
+                          <button className="button-export" onClick={searchRoutes}>
+                            {
+                              loading ?
+                              <SubmitLoader />
+                              :
+                              'Search'
+                            }
+                          </button>   
+                      </div>
+                  </Col>
+              </Row> 
+          </div>
+
+            <div className="mt-30">
                 <Table responsive borderless className="bg-inherit">
                     <thead>
                         <tr>
                             <th>#</th>
                             <th>type</th>
+                            <th>scheme name</th>
+                            <th>processor</th>
+                            <th>client</th>
                             <th>maximun amount</th>
                             <th>minimum amount</th>
                             <th>action</th>
@@ -87,12 +176,15 @@ const Routing = () => {
                             <NoResultFound/>
                             :
                             routeList.map((route, i)=>{
-                                const{type,maximumAmount, minimumAmount, id} = route;
+                                const{type,maximumAmount, minimumAmount, scheme, stationId, clientsId, id} = route;
 
                                 return(
                                     <tr key={i}>
                                     <td>{i+1}</td>
                                     <td>{type}</td>
+                                    <td>{scheme}</td>
+                                    <td>{stationId?.name}</td>
+                                    <td>{clientsId?.clientName}</td>
                                     <td>{maximumAmount}</td>
                                     <td>{minimumAmount}</td>
                                     <td><FiEdit onClick={()=>navigate(`/route/${id}`)} size={20} className="camp-grey mr-15" /></td>

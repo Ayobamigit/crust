@@ -25,11 +25,13 @@ const Transactions = () => {
         terminalID:"",
         transactionReference:"",
         clientID:'',
+        scheme:'',
+        processedBy:'',
         loading:false,
         processing: false,
     })
 
-    const {pageNo, pageSize, sortBy, transactionList, totalPages, loading, processing, terminalID, transactionReference, clientID} = state
+    const {pageNo, pageSize, sortBy, transactionList, totalPages, loading, processing, terminalID, transactionReference, clientID, scheme, processedBy} = state
     useEffect(()=>{ 
         getAllTransactions()
       
@@ -98,9 +100,11 @@ const Transactions = () => {
           pageSize,
           sortBy,
           param:{
-            terminalID: terminalID? terminalID : undefined,
-            transactionReference : transactionReference ? transactionReference : undefined,
-            clientID  : clientID ? clientID : undefined,
+            terminalID: terminalID || undefined,
+            transactionReference : transactionReference || undefined,
+            clientID  : clientID || undefined,
+            processedBy  : processedBy || undefined,
+            scheme  : scheme || undefined,
           }
         }
       
@@ -191,16 +195,30 @@ const Transactions = () => {
                         <input className="formcontrol" type="text" placeholder="Search by terminal Id" name="terminalID" onChange = {onChange}/>
                       </div>
                   </Col>
-                  <Col lg={3}>
+                  <Col lg={4}>
                       <div className="filterItem">
                         <label className="label">RRN:</label>
                         <input className="formcontrol" type="text" placeholder="Search by rrn" name="transactionReference" onChange = {onChange}/>
                       </div>
                   </Col>
-                  <Col lg={3}>
+                  <Col lg={4}>
                       <div className="filterItem">
                         <label className="label">Client ID:</label>
                         <input className="formcontrol" type="text" placeholder="Search by client id" name="clientID" onChange = {onChange}/>
+                      </div>
+                  </Col>
+              </Row>
+              <Row className='mt-30'>
+                  <Col lg={4}>
+                      <div className="filterItem">
+                        <label className="label">Scheme:</label>
+                        <input className="formcontrol" type="text" placeholder="Search by scheme" name="scheme" onChange = {onChange}/>
+                      </div>
+                  </Col>
+                  <Col lg={4}>
+                      <div className="filterItem">
+                        <label className="label">Processor:</label>
+                        <input className="formcontrol" type="text" placeholder="Search by processor" name="processedBy" onChange = {onChange}/>
                       </div>
                   </Col>
                   <Col lg={1}>
@@ -230,6 +248,7 @@ const Transactions = () => {
                             <th>Terminal Type</th>
                             <th>Terminal ID</th>
                             <th>Processed by</th>
+                            <th>Scheme</th>
                             <th>Created At</th>
                             <th>Payment Code</th>
                             <th>Payment Status</th>
@@ -242,7 +261,7 @@ const Transactions = () => {
                           <NoResultFound />
                           :
                           transactionList.map((transaction, i)=>{
-                            const{de37, de41, terminals, createdAt, de4, id, responsecode, processedBy} = transaction;
+                            const{de37, de41, terminals, createdAt, de4, id, responsecode, processedBy, scheme} = transaction;
                             let status = ''
                             const statusClass = () =>{
                                 if(responsecode === '00'){
@@ -286,6 +305,7 @@ const Transactions = () => {
                                 <td>{terminals?.terminalType}</td>
                                 <td>{de41}</td>
                                 <td>{processedBy}</td>
+                                <td>{scheme}</td>
                                 <td>{createdAt ? moment(new Date(createdAt)).format('D/MM/YYYY') : 'N/A'}</td>
                                 <td>{responsecode}</td>
                                 <td><span className={`${statusClass()}`}>{status}</span></td>
