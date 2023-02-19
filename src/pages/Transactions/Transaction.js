@@ -112,6 +112,11 @@ const Transaction = () => {
                 title="Scheme"
                 value={transactionDetails?.scheme}
             />
+
+            <TransactionDiv 
+                title="Card Pan"
+                value={transactionDetails?.de2}
+            />
             <TransactionDiv 
                 title="Merchant Name and Location"
                 value={transactionDetails?.de43}

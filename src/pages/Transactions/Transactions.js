@@ -13,6 +13,8 @@ import ReactPaginate from 'react-paginate'
 import ReactHtmlTableToExcel from 'react-html-table-to-excel'
 import SubmitLoader from '../../components/submitloader/SubmitLoader'
 import { useNavigate } from 'react-router'
+import DatePicker from 'react-datepicker';
+
 
 const Transactions = () => {
     const navigate = useNavigate()
@@ -30,6 +32,9 @@ const Transactions = () => {
         loading:false,
         processing: false,
     })
+
+    const [from, setFromDate] = useState()
+    const [to, setToDate] = useState();
 
     const {pageNo, pageSize, sortBy, transactionList, totalPages, loading, processing, terminalID, transactionReference, clientID, scheme, processedBy} = state
     useEffect(()=>{ 
@@ -105,6 +110,8 @@ const Transactions = () => {
             clientID  : clientID || undefined,
             processedBy  : processedBy || undefined,
             scheme  : scheme || undefined,
+            from: from || undefined,
+            to: to || undefined
           }
         }
       
@@ -118,7 +125,7 @@ const Transactions = () => {
             setState(state=>({
               ...state,
               loading:false,
-              transactionList:content,
+              transactionList:content || [],
               totalPages
             }))
           }
@@ -139,6 +146,56 @@ const Transactions = () => {
         [ e.target.name]: e.target.value
       }))
     }
+
+  //   const onFromDateChange= (date) =>{
+
+  //     //setting the date that would be displayed to the user
+         
+  //        setStartDate(date);
+  
+  //        if(date){
+  //            const value = moment(new Date(date)).format('YYYY-MM-DD')
+  
+  //            //Setting the date for the request body
+  
+  //            setState(state=>({
+  //                ...state,
+  //                from: value
+  //            }))
+  //        }else{
+  //            setState(state=>({
+  //                ...state,
+  //                from: ""
+  //            }))
+  //        }
+        
+  
+  
+      
+  // }
+  
+  
+  // const onToDateChange= date =>{
+  
+  //     //setting the date that would be displayed to the user
+  //     setEndDate(date);
+  //     if(date){
+  //         const value = moment(new Date(date)).format('YYYY-MM-DD')
+  
+  //         //Setting the date for the request body
+  
+  //         setState(state=>({
+  //             ...state,
+  //             to: value
+  //         }))
+  //     }
+  //     else{
+  //         setState(state=>({
+  //             ...state,
+  //             to: ""
+  //         }))
+  //     }
+  // }
     
       const changeCurrentPage = (data) => {
         Promise.resolve()
@@ -221,6 +278,44 @@ const Transactions = () => {
                         <input className="formcontrol" type="text" placeholder="Search by processor" name="processedBy" onChange = {onChange}/>
                       </div>
                   </Col>
+              </Row> 
+              <Row className='mt-30'>
+                  <Col lg={4}>
+                      <div className="filterItem">
+                        <label className="label">From:</label>
+                        <DatePicker 
+                          dateFormat="dd-MM-yyyy"
+                          placeholderText="dd-mm-yyyy"
+                          onChange={date => setFromDate(date)}
+                          isClearable  
+                          selected={from} 
+                          className="formcontrol"  
+                          wrapperClassName="datePicker"
+                          maxDate={new Date()}
+                          showMonthDropdown
+                          showYearDropdown
+                          dropdownMode="select"
+                      />
+                      </div>
+                  </Col>
+                  <Col lg={4}>
+                      <div className="filterItem">
+                        <label className="label">To:</label>
+                        <DatePicker 
+                          dateFormat="dd-MM-yyyy"
+                          placeholderText="dd-mm-yyyy"
+                          onChange={date => setToDate(date)}
+                          isClearable  
+                          selected={to} 
+                          className="formcontrol"  
+                          wrapperClassName="datePicker"
+                          maxDate={new Date()}
+                          showMonthDropdown
+                          showYearDropdown
+                          dropdownMode="select"
+                      />
+                      </div>
+                  </Col>
                   <Col lg={1}>
                       <div>
                           <button className="button-export" onClick={searchTransaction}>
@@ -248,8 +343,9 @@ const Transactions = () => {
                             <th>Terminal Type</th>
                             <th>Terminal ID</th>
                             <th>Processed by</th>
-                            <th>Scheme</th>
+                            <th>Card type</th>
                             <th>Created At</th>
+                            <th>Time</th>
                             <th>Payment Code</th>
                             <th>Payment Status</th>
                             <th>action</th>
@@ -260,7 +356,7 @@ const Transactions = () => {
                           transactionList?.length === 0 ?
                           <NoResultFound />
                           :
-                          transactionList.map((transaction, i)=>{
+                          transactionList?.map((transaction, i)=>{
                             const{de37, de41, terminals, createdAt, de4, id, responsecode, processedBy, scheme} = transaction;
                             let status = ''
                             const statusClass = () =>{
@@ -307,6 +403,7 @@ const Transactions = () => {
                                 <td>{processedBy}</td>
                                 <td>{scheme}</td>
                                 <td>{createdAt ? moment(new Date(createdAt)).format('D/MM/YYYY') : 'N/A'}</td>
+                                <td>{createdAt ? moment(new Date(createdAt)).format('LT') : 'N/A'}</td>
                                 <td>{responsecode}</td>
                                 <td><span className={`${statusClass()}`}>{status}</span></td>
                                 <td><span className="tabgrey" onClick={()=>{navigate(`/transaction/${id}`)}}>View More</span></td>

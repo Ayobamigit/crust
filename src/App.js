@@ -1,6 +1,7 @@
 import { Suspense } from 'react';
 import {Route, Routes, Navigate} from 'react-router-dom';
 import './App.scss';
+import "react-datepicker/dist/react-datepicker.css"
 import AddClient from './pages/Clients/AddClient';
 import ViewClient from './pages/Clients/ViewClient';
 import ViewClients from './pages/Clients/ViewClients';

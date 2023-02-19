@@ -162,8 +162,8 @@ const Routing = () => {
                         <tr>
                             <th>#</th>
                             <th>type</th>
-                            <th>scheme name</th>
-                            <th>processor</th>
+                            <th>card type</th>
+                            <th>station</th>
                             <th>client</th>
                             <th>maximun amount</th>
                             <th>minimum amount</th>

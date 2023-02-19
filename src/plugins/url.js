@@ -34,6 +34,7 @@ export const deleteStation = `${baseUrl()}/api/v1/stations/delete`;
 
 // Routes
 export const viewRoutes = `${baseUrl()}/api/v1/routes/view`;
+export const searchRoute = `${baseUrl()}/api/v1/routes/view/param`;
 export const createRoute = `${baseUrl()}/api/v1/routes/create`;
 export const updateRoute = `${baseUrl()}/api/v1/routes/update`;
 export const deleteRoute = `${baseUrl()}/api/v1/routes/delete`;
