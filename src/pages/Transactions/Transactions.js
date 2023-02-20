@@ -147,55 +147,6 @@ const Transactions = () => {
       }))
     }
 
-  //   const onFromDateChange= (date) =>{
-
-  //     //setting the date that would be displayed to the user
-         
-  //        setStartDate(date);
-  
-  //        if(date){
-  //            const value = moment(new Date(date)).format('YYYY-MM-DD')
-  
-  //            //Setting the date for the request body
-  
-  //            setState(state=>({
-  //                ...state,
-  //                from: value
-  //            }))
-  //        }else{
-  //            setState(state=>({
-  //                ...state,
-  //                from: ""
-  //            }))
-  //        }
-        
-  
-  
-      
-  // }
-  
-  
-  // const onToDateChange= date =>{
-  
-  //     //setting the date that would be displayed to the user
-  //     setEndDate(date);
-  //     if(date){
-  //         const value = moment(new Date(date)).format('YYYY-MM-DD')
-  
-  //         //Setting the date for the request body
-  
-  //         setState(state=>({
-  //             ...state,
-  //             to: value
-  //         }))
-  //     }
-  //     else{
-  //         setState(state=>({
-  //             ...state,
-  //             to: ""
-  //         }))
-  //     }
-  // }
     
       const changeCurrentPage = (data) => {
         Promise.resolve()
@@ -265,7 +216,7 @@ const Transactions = () => {
                       </div>
                   </Col>
               </Row>
-              <Row className='mt-30'>
+              {/* <Row className='mt-30'>
                   <Col lg={4}>
                       <div className="filterItem">
                         <label className="label">Scheme:</label>
@@ -278,7 +229,7 @@ const Transactions = () => {
                         <input className="formcontrol" type="text" placeholder="Search by processor" name="processedBy" onChange = {onChange}/>
                       </div>
                   </Col>
-              </Row> 
+              </Row>  */}
               <Row className='mt-30'>
                   <Col lg={4}>
                       <div className="filterItem">
